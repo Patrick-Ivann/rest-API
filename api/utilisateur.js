@@ -1,53 +1,40 @@
 import mysql from 'mysql';
-import { RECUPERE_TOUS_LES_UTILISATEURS, RECUPERE_UTILISATEUR_PAR_ID, RECUPERE_UTILISATEUR_PAR_MAIL } from './requetesSql';
+import {
+    RECUPERER_TOUS_LES_UTILISATEURS,
+    RECUPERER_UTILISATEURS_PAR_ID,
+    RECUPERER_UTILISATEURS_PAR_MAIL
+} from './requête_sql';
 
 const connexion = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: 'root',
-    database: "projet_web"
+    password: "awakose2531",
+    database: "bdd_api"
 });
 
 export const recupererTousLesUtilisateur = (req,res) =>{
 
-    const erreur = {}
-
-    connexion.query(RECUPERE_TOUS_LES_UTILISATEURS,(err,rows,fields) =>{
-
-
-             return res.json(rows);
-
-    })
-    
-
-}
-
-export const recupererUtilisateurParId = (req, res) => {
-
-    const erreur = {}
-
-    connexion.query(RECUPERE_UTILISATEUR_PAR_ID, req.params.id ,(err, rows, fields) => {
-
+    connexion.query(RECUPERER_TOUS_LES_UTILISATEURS,(err,rows,fields) =>{
 
         return res.json(rows);
+    });
 
-    })
 
+};
 
-}
+export const recupererUtilisateurParId = (req,res) =>{
 
-export const recupererUtilisateurParMail = (req, res) => {
-
-    const erreur = {}
-
-    console.log("mail");
-
-    connexion.query(RECUPERE_UTILISATEUR_PAR_MAIL, req.params.mail, (err, rows, fields) => {
-
+    connexion.query(RECUPERER_UTILISATEURS_PAR_ID, req.params.id,(err,rows,fields) =>{
 
         return res.json(rows);
+    });
 
-    })
+};
 
+export const recupererUtilisateurParMail = (req,res) =>{
 
-}
+    connexion.query(RECUPERER_UTILISATEURS_PAR_MAIL, req.params.mail,(err,rows,fields) =>{
+        return res.json(rows);
+    });
+
+};

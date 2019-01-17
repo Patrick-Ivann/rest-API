@@ -1,44 +1,30 @@
-import { RECUPERE_TOUS_LES_EVENEMENTS, RECUPERE_EVENEMENT_PAR_ID } from "./requetesSql";
 import mysql from 'mysql';
-
-
+import {RECUPERER_EVENEMENTS_PAR_ID, RECUPERER_EVENEMENTS_PAR_LIEU, RECUPERER_TOUT_LES_EVENEMENTS} from "./requête_sql";
 
 const connexion = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: 'root',
-    database: "projet_web"
+    password: "awakose2531",
+    database: "bdd_api"
 });
 
+export const recupererToutLesEvenements = (req,res) =>{
 
-
-export const recupererTousLesEvenement = (req,res) => {
-
-     const erreur = {}
-
-     connexion.query(RECUPERE_TOUS_LES_EVENEMENTS, (err, rows, fields) => {
-
-
-         return res.json(rows);
-
-     })
-
-
-  
-}
-
-
-
-export const recupererEvenementParId = (req, res) => {
-
-    const erreur = {}
-
-    connexion.query(RECUPERE_EVENEMENT_PAR_ID, req.params.id, (err, rows, fields) => {
-
-
+    connexion.query(RECUPERER_TOUT_LES_EVENEMENTS,(err,rows,fields) =>{
         return res.json(rows);
+    });
+};
 
-    })
+export const recupererEvenementParId = (req,res) =>{
 
+    connexion.query(RECUPERER_EVENEMENTS_PAR_ID, req.params.id,(err,rows,fields) =>{
+        return res.json(rows);
+    });
+};
 
-}
+export const recupererEvenementParLieu = (req,res) =>{
+
+    connexion.query(RECUPERER_EVENEMENTS_PAR_LIEU, req.params.lieu,(err,rows,fields) =>{
+        return res.json(rows);
+    });
+};
