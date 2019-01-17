@@ -4,7 +4,8 @@ import morgan from 'morgan'
 import compression from 'compression'
 import utilisateur from './routes/utilisateur';
 import evenement from './routes/evenement';
-
+import photo from './routes/photo';
+import produit from './routes/produit';
 
 const app = express()
 
@@ -16,6 +17,9 @@ app.use(compression());
 
 app.use('/api/utilisateur/',utilisateur);
 app.use('/api/evenement/', evenement);
+app.use("/api/photo/", photo);
+app.use("/api/produit/", produit);
+
 
 
 

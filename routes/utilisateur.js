@@ -11,7 +11,7 @@ const router = express.Router();
 router.route("/recuperer")
     .get(recupererTousLesUtilisateur)
 
-router.route("/recuperer/:id([0-9]{6})")
+router.route("/recuperer/:id([0-9]*)")
 .get(recupererUtilisateurParId)
 
 //[a-z0-9]*@viacesi.fr
