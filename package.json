@@ -1,0 +1,26 @@
+{
+  "name": "rest__api_serveur_projetweb",
+  "version": "1.0.0",
+  "description": "serveur rest pour la base de donné de tous les campus de France",
+  "main": "serveur.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serveur": "nodemon ./serveur.js --exec babel-node --presets babel-preset-env"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "compression": "^1.7.3",
+    "express": "^4.16.4",
+    "moment": "^2.23.0",
+    "validator": "^10.11.0",
+    "mysql": "^2.16.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "morgan": "^1.9.1",
+    "nodemon": "^1.18.9"
+  }
+}
