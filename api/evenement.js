@@ -5,7 +5,7 @@ const connexion = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "awakose2531",
-    database: "bdd_api"
+    database: "bdd_api2"
 });
 
 export const recupererToutLesEvenements = (req,res) =>{
