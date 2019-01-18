@@ -3,5 +3,14 @@
 		{
 			"path": "."
 		}
-	]
+	],
+	"settings": {
+		"emmet.excludeLanguages": [
+			"markdown",
+			"javascript"
+		],
+
+		  "editor.formatOnSave": true,
+
+	}
 }

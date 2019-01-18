@@ -1,5 +1,9 @@
 import express from 'express';
-import { recupererToutesLesPhotos, recupererPhotoParId } from '../api/photo';
+import {
+    recupererToutesLesPhotos,
+    recupererPhotoParId,
+    ajouterPhoto
+} from '../api/photo';
 
 const router = express.Router();
 
@@ -10,6 +14,8 @@ router.route("/recuperer")
 router.route("/recuperer/:id([0-9]*)")
     .get(recupererPhotoParId)
 
+router.route("/ajouter")
+    .post(ajouterPhoto)
 
 
 

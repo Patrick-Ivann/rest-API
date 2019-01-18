@@ -1,6 +1,9 @@
 import express from 'express'
 import {
-    recupererTousLesUtilisateur, recupererUtilisateurParId, recupererUtilisateurParMail
+    recupererTousLesUtilisateur,
+    recupererUtilisateurParId,
+    recupererUtilisateurParMail,
+    ajouterUtilisateur
 } from '../api/utilisateur';
 
 
@@ -12,12 +15,17 @@ router.route("/recuperer")
     .get(recupererTousLesUtilisateur)
 
 router.route("/recuperer/:id([0-9]*)")
-.get(recupererUtilisateurParId)
+    .get(recupererUtilisateurParId)
 
 //[a-z0-9]*@viacesi.fr
 //
 router.route("/recuperer/:mail([a-z0-9]*@[a-z0-9]*)")
     .get(recupererUtilisateurParMail)
+
+
+
+router.route("/ajouter")
+    .post(ajouterUtilisateur)
 
 
 export default router

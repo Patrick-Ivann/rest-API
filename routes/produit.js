@@ -1,6 +1,10 @@
 import express from 'express';
 
-import { recupererTousLesProduits, recupererProduitParId } from "../api/produit";
+import {
+    recupererTousLesProduits,
+    recupererProduitParId,
+    ajouterProduit
+} from "../api/produit";
 
 const router = express.Router();
 
@@ -10,6 +14,10 @@ router.route("/recuperer")
 
 router.route("/recuperer/:id([0-9]*)")
     .get(recupererProduitParId)
+
+
+router.route("/ajouter")
+    .post(ajouterProduit)
 
 
 
