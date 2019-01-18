@@ -1,5 +1,10 @@
 import express from 'express';
-import {recupererToutesLesJaime, recupererPhotoAimee, recupererUtilisateurAimant} from "../api/aime";
+import {
+    recupererToutesLesJaime,
+    recupererPhotoAimee,
+    recupererUtilisateurAimant,
+    publierUnLikeSurPhoto
+} from "../api/aime";
 
 const router = express.Router();
 
@@ -13,4 +18,6 @@ router.route("/recuperer/photo/:id([0-9]*)")
     .get(recupererPhotoAimee);
 
 router.route("/ajouter/")
+    .post(publierUnLikeSurPhoto);
+
 module.exports = router;

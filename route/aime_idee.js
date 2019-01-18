@@ -1,5 +1,6 @@
 import express from 'express';
 import {
+    publierUnLikeSurEventIdee,
     recupererEventIdeeAime,
     recupererToutesLesEventAimee,
     recupererUtilisateurAimeIdeeEvent
@@ -15,5 +16,8 @@ router.route("/recuperer/utilisateur/:id([0-9]*)")
 
 router.route("/recuperer/event/:id([0-9]*)")
     .get(recupererEventIdeeAime);
+
+router.route("/ajouter/")
+    .post(publierUnLikeSurEventIdee);
 
 module.exports = router;

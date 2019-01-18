@@ -8,8 +8,8 @@ import {
 const connexion = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "awakose2531",
-    database: "bdd_api2"
+    password: "",
+    database: "bdd_api"
 });
 
 export const recupererTousLesUtilisateur = (req,res) =>{

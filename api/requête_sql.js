@@ -34,3 +34,7 @@ export const RECUPERER_PRODUIT = "SELECT * FROM achete WHERE id_produit = ?";
 export const RECUPERER_TOUT_LES_EVENT_IDEE_AIMEE = "SELECT * FROM aime_idee";
 export const RECUPERER_UTIILISATEUR_AIME_IDEE_EVENT = "SELECT * FROM aime_idee WHERE id_user = ?";
 export const RECUPERER_EVENT_IDEE_AIME = "SELECT * FROM aime_idee WHERE id_event_idee = ?";
+
+export const PUBLIER_UN_LIKE_SUR_PHOTO = "INSERT INTO aime (id_user, id_photo) VALUES ('?', '?')";
+
+export const PUBLIER_UN_LIKE_SUR_IDEE = "INSERT INTO aime_idee (id_user, id_event_idee) VALUES ('?', '?')";

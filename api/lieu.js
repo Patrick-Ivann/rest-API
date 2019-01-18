@@ -4,8 +4,8 @@ import {RECUPERER_LIEU_PAR_ID, RECUPERER_TOUTES_LES_LIEU} from "./requête_sql";
 const connexion = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "awakose2531",
-    database: "bdd_api2"
+    password: "",
+    database: "bdd_api"
 });
 
 export const recupererToutesLesLieu = (req,res) =>{

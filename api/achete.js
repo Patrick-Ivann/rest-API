@@ -1,5 +1,5 @@
 import mysql from 'mysql';
-import {RECUPERER_ACHETEUR, RECUPERER_LES_PHOTO_AIMEE, RECUPERER_PRODUIT, RECUPERER_TOUT_ACHAT} from "./requête_sql";
+import {RECUPERER_ACHETEUR, RECUPERER_PRODUIT, RECUPERER_TOUT_ACHAT} from "./requête_sql";
 
 const connexion = mysql.createConnection({
     host: "localhost",
