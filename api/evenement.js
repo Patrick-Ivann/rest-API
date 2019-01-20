@@ -14,11 +14,16 @@ import {
 const connexion = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: 'root',
-    database: "projet_web"
+    password: "awakose2531",
+    database: "bdd_api2"
 });
 
+export const recupererToutLesEvenements = (req, res) => {
 
+    connexion.query(RECUPERER_TOUT_LES_EVENEMENTS, (err, rows, fields) => {
+        return res.json(rows);
+    });
+};
 
 export const recupererTousLesEvenement = (req, res) => {
 
@@ -44,9 +49,14 @@ export const recupererEvenementParId = (req, res) => {
     connexion.query(RECUPERE_EVENEMENT_PAR_ID, req.params.id, (err, rows, fields) => {
 
 
-        return res.json(rows);
 
-    })
+        return res.json(rows);
+    });
+
+
+}
+
+export const recupererEvenementParLieu = (req, res) => {
 
 
 }
@@ -130,3 +140,12 @@ export const ajouterEvenement = (req, res) => {
         res.json(rows);
     })
 }
+
+
+/*
+connexion.query(RECUPERER_EVENEMENTS_PAR_LIEU, req.params.lieu, (err, rows, fields) => {
+    return res.json(rows);
+});
+};
+
+*/

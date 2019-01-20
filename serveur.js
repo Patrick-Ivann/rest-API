@@ -10,12 +10,14 @@ import produit from './routes/produit';
 const app = express()
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
 app.use(morgan('dev'));
 app.use(compression());
 
 
-app.use('/api/utilisateur/',utilisateur);
+app.use('/api/utilisateur/', utilisateur);
 app.use('/api/evenement/', evenement);
 app.use("/api/photo/", photo);
 app.use("/api/produit/", produit);
