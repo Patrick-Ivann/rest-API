@@ -18,4 +18,4 @@ export const AJOUTER_PHOTO = "INSERT INTO photo SET ?;  SELECT * FROM photo WHER
 export const RECUPERE_TOUS_LES_PRODUITS = "SELECT * FROM produit"
 export const RECUPERE_PRODUIT_PAR_ID = "SELECT * FROM produit where id_produit = ?"
 
-export const AJOUTER_PRODUIT = "INSERT INTO produit SET ?;  SELECT * FROM produit WHERE id_produit = (SELECT MAX(id_produit) FROM produit ) "
+export const AJOUTER_PRODUIT = "INSERT INTO produit SET ?;  "

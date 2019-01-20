@@ -83,16 +83,28 @@ export const ajouterProduit = (req, res) => {
         produit["date_creation_produit"] = moment().format('YYYY/MM/D hh:mm:ss SSS')
 
         console.log(produit)
-        connexion.query(AJOUTER_PRODUIT, produit, (err, rows, fields) => {
+        /*connexion.query(AJOUTER_PRODUIT, produit, (err, rows, fields) => {
 
 
             if (err) {
                 return res.value(500).json(err);
             }
 
+            return res.json(rows.insertId);
+        })
+*/
+
+        var sql = "CALL ajout(?,?,?,?)"
+        connexion.query(sql, [produit.nom_produit, produit.prix_produit, produit.url_image_produit, produit.date_creation_produit], (err, rows, fields) => {
+
+            if (err) {
+                res.status(500).json(err);
+            }
+
+
+
             return res.json(rows);
         })
-
 
     }
 
