@@ -1,23 +1,31 @@
-import mysql from 'mysql';
-import {RECUPERER_LIEU_PAR_ID, RECUPERER_TOUTES_LES_LIEU} from "./requête_sql";
+import connexion from '../functions/connexion';
+import {
+    RECUPERER_TOUS_LES_LIEUX,
+    RECUPERER_LIEU_PAR_ID
+} from "./requetesSql";
 
-const connexion = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "bdd_api"
-});
+/**
+ * @access
+ * @alias /api/lieu/recuperer
+ * @param {*} req 
+ * @param {*} res 
+ */
+export const recupererTousLesLieux = (req, res) => {
 
-export const recupererToutesLesLieu = (req,res) =>{
-
-    connexion.query(RECUPERER_TOUTES_LES_LIEU,(err,rows,fields) =>{
+    connexion.query(RECUPERER_TOUS_LES_LIEUX, (err, rows, fields) => {
         return res.json(rows);
     });
 };
 
-export const recupererLieuParId = (req,res) =>{
+/**
+ * @access
+ * @alias /api/lieu/recuperer/:id([0-9]9)
+ * @param {*} req 
+ * @param {*} res 
+ */
+export const recupererLieuParId = (req, res) => {
 
-    connexion.query(RECUPERER_LIEU_PAR_ID, req.params.id,(err,rows,fields) =>{
+    connexion.query(RECUPERER_LIEU_PAR_ID, req.params.id, (err, rows, fields) => {
         return res.json(rows);
     });
 };

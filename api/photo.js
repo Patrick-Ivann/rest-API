@@ -9,13 +9,9 @@ import {
 } from '../validation/validationInput';
 
 import moment from 'moment'
+import formidable from 'formidable';
+import connexion from '../functions/connexion';
 
-const connexion = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: 'root',
-    database: "projet_web"
-});
 
 export const recupererToutesLesPhotos = (req, res) => {
 
@@ -44,6 +40,75 @@ export const recupererPhotoParId = (req, res) => {
 
 
 }
+
+
+
+export const televerserPhoto = (req, res) => {
+
+
+    var path = require("path")
+    const erreurs = {}
+
+
+    var that = {}
+
+
+    var form = new formidable.IncomingForm();
+    form.parse(req, (err, fields, files) => {
+
+        that["id_user"] = fields["id_user"]
+        that["legende_photo"] = fields["legende_photo"]
+        // console.log(fields.id_user);
+        ///console.log(files.fichier);
+
+    });
+
+    form.on('field', function (name, value) {
+
+        console.log(name + value);
+    });
+
+    form.on('fileBegin', function (name, file) {
+        file.path = path.join(__dirname, '../photos/') + file.name;
+        file.name = 
+        console.log(file.path)
+    });
+
+    form.on('aborted', function () {
+
+        console.log("erreur");
+
+        req.resume()
+    });
+
+    form.on('error', function (err) {
+
+        console.log(err);
+
+        erreurs.erreurTransfertFichier = "erreur lors du transfert de fichier, veuillez reéssayer ultérieurement.   "
+        return res.status(404).json(erreurs);
+
+    })
+
+    console.log(that);
+
+    form.on('file', function (name, file) {
+        console.log('Uploaded ' + file.name);
+
+        console.log(that)
+
+        /**
+         * TODO faire passer l'id_event,l'id_user, la legende à la bdd
+         */
+
+
+        // rajouterFicherAprosit(file, res)
+        //return res.send();
+
+    });
+
+};
+
 
 
 export const ajouterPhoto = (req, res) => {
@@ -90,6 +155,11 @@ export const ajouterPhoto = (req, res) => {
                 return res.status(404).json(err);
 
             } else {
+
+
+
+
+
 
                 return res.json(rows);
 

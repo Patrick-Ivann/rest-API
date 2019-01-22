@@ -9,13 +9,9 @@ import {
 
 
 import moment from 'moment';
+import connexion from '../functions/connexion';
 
-const connexion = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: 'root',
-    database: "projet_web"
-});
+
 
 export const recupererTousLesProduits = (req, res) => {
 
@@ -50,9 +46,6 @@ export const recupererProduitParId = (req, res) => {
 
 export const ajouterProduit = (req, res) => {
 
-
-
-
     const {
         erreurs,
         estValide
@@ -82,23 +75,12 @@ export const ajouterProduit = (req, res) => {
 
         produit["date_creation_produit"] = moment().format('YYYY/MM/D hh:mm:ss SSS')
 
-        console.log(produit)
-        /*connexion.query(AJOUTER_PRODUIT, produit, (err, rows, fields) => {
-
-
-            if (err) {
-                return res.value(500).json(err);
-            }
-
-            return res.json(rows.insertId);
-        })
-*/
 
         var sql = "CALL ajout(?,?,?,?)"
         connexion.query(sql, [produit.nom_produit, produit.prix_produit, produit.url_image_produit, produit.date_creation_produit], (err, rows, fields) => {
 
             if (err) {
-                res.status(500).json(err);
+                res.status(400).json(err);
             }
 
 

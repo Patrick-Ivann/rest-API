@@ -1,6 +1,44 @@
 const Validator = require("validator");
 const isEmpty = require("../functions/is_empty");
 
+export const valideConnexionInput = (data) => {
+
+    let erreurs = {}
+
+    if (Validator.isEmpty(data.adresse_mail) || !data.adresse_mail) {
+
+        erreurs.adresse_mail = "Le mail ne doit pas etre vide."
+    }
+
+    if (Validator.isEmpty(data.mot_de_passe) || !data.mot_de_passe) {
+        erreurs.mot_de_passe = "Le mot de passe ne doit pas etre vide."
+    }
+
+
+    if (data.adresse_mail == !typeof String || !Validator.isEmail(data.adresse_mail)) {
+        erreurs.typeAdresse_mail = "Le nom de l'evenement doit être une chaîne de caractère."
+    }
+
+
+    if (data.mot_de_passe == !typeof String) {
+        erreurs.typeNomProduit = "Le nom de l'evenement doit être une chaîne de caractère."
+    }
+
+
+
+    return {
+        erreurs,
+        estValide: isEmpty(erreurs)
+    }
+
+
+
+
+};
+
+
+
+
 export function valideProduitInput(data) {
     let erreurs = {};
 
@@ -68,11 +106,11 @@ export const valideEvenementInput = (data) => {
         erreurs.typeNomProduit = "Le nom de l'evenement doit être une chaîne de caractère."
     }
 
-    if (data.date_debut_event == !typeof Date) {
+    if (data.date_debut_event == !typeof String) {
         erreurs.typeDate_debut_event = "la date du debut de l'evenement doit être une chaîne de caractère."
     }
 
-    if (data.date_fin_event == !typeof Date) {
+    if (data.date_fin_event == !typeof String) {
         erreurs.typeDate_fin_event = "la date du debut de doit être une chaîne de caractère."
     }
 

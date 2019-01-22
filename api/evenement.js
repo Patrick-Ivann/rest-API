@@ -1,36 +1,42 @@
-import {
-    RECUPERE_TOUS_LES_EVENEMENTS,
-    RECUPERE_EVENEMENT_PAR_ID,
-    AJOUTER_EVENEMENT
-} from "./requetesSql";
-import mysql from 'mysql';
 import moment from 'moment';
+import connexion from "../functions/connexion";
 import {
     valideEvenementInput
 } from "../validation/validationInput";
+import {
+    AJOUTER_EVENEMENT
+} from "./procedures_sql";
+import {
+    RECUPERER_TOUS_LES_EVENEMENTS,
+    RECUPERER_EVENEMENT_PAR_LIEU,
+    SUPPRIMER_EVENEMENT_PAR_ID,
+    RECUPERER_EVENEMENT_PAR_ID,
+} from './requetesSql';
 
 
 
-const connexion = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "awakose2531",
-    database: "bdd_api2"
-});
 
-export const recupererToutLesEvenements = (req, res) => {
 
-    connexion.query(RECUPERER_TOUT_LES_EVENEMENTS, (err, rows, fields) => {
-        return res.json(rows);
-    });
-};
 
-export const recupererTousLesEvenement = (req, res) => {
+
+
+/**
+ * @access free
+ * @alias /api/evenement/recuperer
+ * @param {*} req 
+ * @param {*} res 
+ */
+export const recupererTousLesEvenements = (req, res) => {
 
     const erreur = {}
 
-    connexion.query(RECUPERE_TOUS_LES_EVENEMENTS, (err, rows, fields) => {
+    connexion.query(RECUPERER_TOUS_LES_EVENEMENTS, (err, rows, fields) => {
 
+
+        if (err) {
+            console.log(err)
+            return res.status(404).json(err);
+        }
 
         return res.json(rows);
 
@@ -41,14 +47,21 @@ export const recupererTousLesEvenement = (req, res) => {
 }
 
 
-
+/**
+ * @access
+ * @alias /api/evenement/recuperer/:id([0-9]*)
+ * @param {*} req 
+ * @param {*} res 
+ */
 export const recupererEvenementParId = (req, res) => {
 
     const erreur = {}
 
-    connexion.query(RECUPERE_EVENEMENT_PAR_ID, req.params.id, (err, rows, fields) => {
+    connexion.query(RECUPERER_EVENEMENT_PAR_ID, req.params.id, (err, rows, fields) => {
 
-
+        if (err) {
+            return res.status(404).json(err);
+        }
 
         return res.json(rows);
     });
@@ -56,96 +69,125 @@ export const recupererEvenementParId = (req, res) => {
 
 }
 
-export const recupererEvenementParLieu = (req, res) => {
-
-
-}
-
-/* export const ajouterEvenement = (req, res) => {
-
-
-    const {
-        erreurs,
-        estValide
-    } = valideEvenementInput(req.body);
 
 
 
-
-
-    if (!estValide) {
-
-
-
-        return res.status(400).json(erreurs);
-
-    } else {
-
-        const evenement = {}    
-
-        for (var key in req.body) {
-
-            if (JSON.parse(JSON.stringify(req.body)).hasOwnProperty(key)) {
-
-                evenement[key] = req.body[key]
-            }
-
-        }
-
-        /**
-         * TODO les dates dedebut et de fin d'event sont a recevoir depuis le req.body et a formater via moment
-         */
-// evenement["date_debut_event"] = moment().format('YYYY/MM/D hh:mm:ss SSS')
-// evenement["date_fin_event"] = moment().format('YYYY/MM/D hh:mm:ss SSS')
-/*  evenement["date_creation_event"] = moment().format('YYYY/MM/D hh:mm:ss SSS')
-
-
-        connexion.query(AJOUTER_EVENEMENT, evenement, (err, rows, field) => {
-
-            res.json(rows);
-        })
-    }
-
-}
- */
 
 /**
  * todo il manque la fonction de vérification des input évenement
+ * @access via token
+ * @alias /api/evenement/ajouter
  * @param {*} req 
  * @param {*} res 
  */
 export const ajouterEvenement = (req, res) => {
 
 
+    const obj = Object.keys(req.body)[0]
+
+    const {
+        erreurs,
+        estValide
+    } = valideEvenementInput(JSON.parse(obj));
+
+    if (!estValide) {
+        return res.json(erreurs);
+    }
+
     const evenement = {}
 
-    for (var key in req.body) {
+    for (var key in JSON.parse(obj)) {
 
-        if (JSON.parse(JSON.stringify(req.body)).hasOwnProperty(key)) {
+        if (JSON.parse(obj).hasOwnProperty(key)) {
 
-            evenement[key] = req.body[key]
+            evenement[key] = JSON.parse(obj)[key]
+
         }
 
     }
 
     evenement["date_creation_event"] = moment().format('YYYY/MM/D hh:mm:ss SSS')
+    evenement["date_fin_event"] = moment(JSON.parse(obj)["date_fin_event"], "DD/MM/YYYY").format('YYYY/MM/D hh:mm:ss SSS')
+    evenement["date_debut_event"] = moment(JSON.parse(obj)["date_debut_event"], "DD/MM/YYYY").format('YYYY/MM/D hh:mm:ss SSS')
 
 
-    let sql = "call ajouterEvenement(?,?,?,?,?)"
-    connexion.query(sql, [evenement.nom_event, evenement.date_debut_event, evenement.date_fin_event, evenement.date_creation_event, evenement.lieu], (err, rows, field) => {
 
-        if (err) {
-            res.status(404).json(err);
-        }
-        res.json(rows);
-    })
+    if (evenement.nom_event && evenement.date_debut_event && evenement.date_fin_event && evenement.date_creation_event && evenement.nom_lieu) {
+
+
+        connexion.query(AJOUTER_EVENEMENT, [evenement.nom_event, evenement.date_debut_event, evenement.date_fin_event, evenement.date_creation_event, evenement.nom_lieu], (err, rows, field) => {
+
+            if (err) {
+                erreurs.sql = err
+                return res.status(404).json(erreurs);
+            }
+            return res.json(rows);
+        })
+
+
+    } else {
+        erreurs.formulaireVide = "Le formulaire a envoyé du vide"
+        return res.status(404).json(erreurs);
+    }
+
+
 }
 
+/**
+ * @access via token
+ * @alias /api/evenement/supprimer/:id([0-9]*)
+ * @param {*} req 
+ * @param {*} res 
+ */
+export const supprimerEvenement = (req, res) => {
 
-/*
-connexion.query(RECUPERER_EVENEMENTS_PAR_LIEU, req.params.lieu, (err, rows, fields) => {
-    return res.json(rows);
-});
+
+    const erreurs = {}
+
+
+    connexion.query(RECUPERER_EVENEMENT_PAR_ID, req.params.id, (err, rows, fields) => {
+
+        if (err) {
+            erreurs.sql = err
+            return res.status(400).json(erreurs);
+        }
+
+        if (rows) {
+
+
+            connexion.query(SUPPRIMER_EVENEMENT_PAR_ID, req.params.id, (err, rows, fields) => {
+
+                if (err) {
+                    erreurs.sql = err
+                    return res.status(400).json(erreurs);
+                }
+                if (rows.affectedRows === 0) {
+
+                    erreurs.sql = "L'evenement est déja supprimé"
+
+                }
+
+                return res.json(rows)
+            })
+        }
+
+    })
+
+
+
+
 };
 
-*/
+
+
+export const recupererEvenementParLieu = (req, res) => {
+
+    connexion.query(RECUPERER_EVENEMENT_PAR_LIEU, req.params.lieu, (err, rows, fields) => {
+
+        if (err) {
+            return res.status(400).json(err);
+        }
+        return res.json(rows);
+    });
+
+};

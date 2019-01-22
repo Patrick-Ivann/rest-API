@@ -5,6 +5,9 @@ import {
     recupererProduitParId,
     ajouterProduit
 } from "../api/produit";
+import {
+    verificationEmetteur
+} from '../functions/functionSheet';
 
 const router = express.Router();
 
@@ -17,7 +20,7 @@ router.route("/recuperer/:id([0-9]*)")
 
 
 router.route("/ajouter")
-    .post(ajouterProduit)
+    .post(verificationEmetteur, ajouterProduit)
 
 
 

@@ -2,14 +2,17 @@ import express from 'express';
 import {
     publierUnUtilisateurANotifie,
     recupererIdeeNotif,
-    recupererToutesLesNotif,
-    recupererUtilisateurNotif
+    recupererUtilisateurNotif,
+    recupererToutesLesNotifS
 } from "../api/notifie";
+import {
+    verificationEmetteur
+} from '../functions/functionSheet';
 
 const router = express.Router();
 
 router.route("/recuperer")
-    .get(recupererToutesLesNotif);
+    .get(recupererToutesLesNotifS);
 
 router.route("/recuperer/idee/:id([0-9]*)")
     .get(recupererIdeeNotif);
@@ -18,6 +21,6 @@ router.route("/recuperer/utilisateur/:id([0-9]*)")
     .get(recupererUtilisateurNotif);
 
 router.route("/ajouter/")
-    .post(publierUnUtilisateurANotifie);
+    .post(verificationEmetteur, publierUnUtilisateurANotifie);
 
 module.exports = router;

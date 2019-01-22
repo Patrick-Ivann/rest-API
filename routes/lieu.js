@@ -1,10 +1,13 @@
 import express from 'express';
-import {recupererLieuParId, recupererToutesLesLieu} from "../api/lieu";
+import {
+    recupererLieuParId,
+    recupererTousLesLieux,
+} from "../api/lieu";
 
 const router = express.Router();
 
 router.route("/recuperer")
-    .get(recupererToutesLesLieu);
+    .get(recupererTousLesLieux);
 
 router.route("/recuperer/:id([0-9]*)")
     .get(recupererLieuParId);

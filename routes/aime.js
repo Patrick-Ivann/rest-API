@@ -1,15 +1,19 @@
 import express from 'express';
 import {
-    recupererToutesLesJaime,
+
     recupererPhotoAimee,
     recupererUtilisateurAimant,
-    publierUnLikeSurPhoto
+    publierUnLikeSurPhoto,
+    recupererTousLesJaimes
 } from "../api/aime";
+import {
+    verificationEmetteur
+} from '../functions/functionSheet';
 
 const router = express.Router();
 
 router.route("/recuperer/")
-    .get(recupererToutesLesJaime);
+    .get(recupererTousLesJaimes);
 
 router.route("/recuperer/utilisateur/:id([0-9]*)")
     .get(recupererUtilisateurAimant);
@@ -18,6 +22,6 @@ router.route("/recuperer/photo/:id([0-9]*)")
     .get(recupererPhotoAimee);
 
 router.route("/ajouter/")
-    .post(publierUnLikeSurPhoto);
+    .post(verificationEmetteur, publierUnLikeSurPhoto);
 
 module.exports = router;

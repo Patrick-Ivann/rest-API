@@ -10,7 +10,8 @@
 			"javascript"
 		],
 
-		  "editor.formatOnSave": true,
+		"editor.formatOnSave": true,
+		"discord.enabled": false,
 
 	}
 }
