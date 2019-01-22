@@ -9,6 +9,7 @@ import {
 
 
 import moment from 'moment';
+import formidable from 'formidable'
 import connexion from '../functions/connexion';
 
 
@@ -42,6 +43,96 @@ export const recupererProduitParId = (req, res) => {
 
 
 }
+
+
+export const televerserProduit = (req, res) => {
+
+
+    var path = require("path")
+    const erreurs = {}
+
+
+
+
+
+
+    //var form = new formidable.IncomingForm();
+    /*form.parse(req, (err, fields, files) => {
+
+        console.log(fields);
+
+
+        // console.log(fields.id_user);
+        ///console.log(files.fichier);
+
+    });
+
+    form.on('field', function (name, value) {
+
+        console.log(name + value);
+
+    });
+
+    form.on('fileBegin', function (name, file) {
+        file.path = path.join(__dirname, '../photos/') + file.name;
+        //file.name =
+        console.log("filepath ligne 76" + file.path)
+    });
+
+    form.on('aborted', function (err) {
+
+        console.log("annulé");
+
+        // return res.json("kesta t'annule");
+
+        //req.resume()
+    });
+
+    form.on('error', function (err) {
+
+        // console.log(err);
+
+        erreurs.erreurTransfertFichier = "erreur lors du transfert de fichier, veuillez reéssayer ultérieurement.   "
+        return res.status(404).json(err);
+
+    })
+
+    form.on('end', function () {
+
+
+    });
+
+
+    form.on('file', function (name, file) {
+        console.log('Uploaded ' + file.name);
+
+
+        /**
+         * TODO faire passer l'id_event,l'id_user, la legende à la bdd
+         
+
+
+        // rajouterFicherAprosit(file, res)
+        //return res.send();
+
+    });*/
+
+
+    new formidable.IncomingForm().parse(req)
+        .on('file', function (name, file) {
+            console.log('Got file:', name);
+        })
+        .on('field', function (name, field) {
+            console.log('Got a field:', field[0]);
+        })
+        .on('error', function (err) {
+            console.log(err);
+        })
+        .on('end', function () {
+            res.end();
+        });
+
+};
 
 
 export const ajouterProduit = (req, res) => {

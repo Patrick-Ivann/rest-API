@@ -85,14 +85,6 @@ END
 
 
 
-CREATE
-PROCEDURE ajouterEvenement(
-    nom_event VARCHAR(45),
-    date_debut_event DATETIME,
-    date_fin_event DATETIME,
-    date_creation_event DATETIME,
-    lieu text
-)
 BEGIN
     IF EXISTS
         (
@@ -107,6 +99,8 @@ INSERT
 INTO
     `evenement`(
         `nom_event`,
+        `type_event`,
+        `prix`,
         `date_debut_event`,
         `date_fin_event`,
         `date_creation_event`,
@@ -114,6 +108,9 @@ INTO
     )
 VALUES(
     nom_event,
+   type_event,
+        prix,
+    
     date_debut_event,
     date_fin_event,
     date_creation_event,
@@ -127,6 +124,8 @@ INSERT
     INTO
     evenement(
         `nom_event`,
+        `type_event`,
+        `prix`,
         `date_debut_event`,
         `date_fin_event`,
         `date_creation_event`,
@@ -134,6 +133,8 @@ INSERT
     )
 VALUES(
     nom_event,
+    type_event,
+        prix,
     date_debut_event,
     date_fin_event,
     date_creation_event,

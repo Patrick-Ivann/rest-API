@@ -1,9 +1,10 @@
 import express from 'express';
 import {
     publierUnLikeSurEventIdee,
-    recupererEventIdeeAime,
+    recupererTousLesEvenementsAimee,
     recupererUtilisateurAimeIdeeEvent,
-    recupererTousLesEventsAimee
+    recupererEvenementIdeeAime,
+    publierUnLikeSurEvenementIdee
 } from "../api/aime_idee";
 import {
     verificationEmetteur
@@ -12,15 +13,15 @@ import {
 const router = express.Router();
 
 router.route("/recuperer")
-    .get(recupererTousLesEventsAimee);
+    .get(recupererTousLesEvenementsAimee);
 
 router.route("/recuperer/utilisateur/:id([0-9]*)")
     .get(recupererUtilisateurAimeIdeeEvent);
 
 router.route("/recuperer/event/:id([0-9]*)")
-    .get(recupererEventIdeeAime);
+    .get(recupererEvenementIdeeAime);
 
 router.route("/ajouter/")
-    .post(verificationEmetteur, publierUnLikeSurEventIdee);
+    .post(verificationEmetteur, publierUnLikeSurEvenementIdee);
 
 module.exports = router;

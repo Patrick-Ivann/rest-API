@@ -58,6 +58,8 @@ export const RECUPERER_LES_PHOTO_AIMEE = "SELECT * FROM aime WHERE id_photo = ?"
 export const RECUPERER_LES_UTILISATEURS_AIMANT = "SELECT * FROM aime WHERE id_user = ?";
 export const PUBLIER_UN_LIKE_SUR_PHOTO = "INSERT INTO aime (id_user, id_photo) VALUES ('?', '?')";
 
+
+
 export const RECUPERER_TOUTES_LES_PARTICIPATIONS = "SELECT * FROM participer";
 export const RECUPERER_PARTICIPANT = "SELECT * FROM participer WHERE id_user = ?";
 export const RECUPERER_EVENEMENT_PARTICIPE = "SELECT * FROM participer WHERE id_event = ?";

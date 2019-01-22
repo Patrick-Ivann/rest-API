@@ -3,7 +3,7 @@ import express from 'express';
 import {
     recupererTousLesProduits,
     recupererProduitParId,
-    ajouterProduit
+    televerserProduit
 } from "../api/produit";
 import {
     verificationEmetteur
@@ -20,7 +20,7 @@ router.route("/recuperer/:id([0-9]*)")
 
 
 router.route("/ajouter")
-    .post(verificationEmetteur, ajouterProduit)
+    .post(verificationEmetteur, televerserProduit)
 
 
 

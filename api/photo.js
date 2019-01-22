@@ -34,6 +34,10 @@ export const recupererPhotoParId = (req, res) => {
     connexion.query(RECUPERE_PHOTO_PAR_ID, req.params.id, (err, rows, fields) => {
 
 
+        if (err) {
+
+            return res.status(404).json(err);
+        }
         return res.json(rows);
 
     })
@@ -70,7 +74,7 @@ export const televerserPhoto = (req, res) => {
 
     form.on('fileBegin', function (name, file) {
         file.path = path.join(__dirname, '../photos/') + file.name;
-        file.name = 
+        //file.name =
         console.log(file.path)
     });
 
@@ -114,10 +118,14 @@ export const televerserPhoto = (req, res) => {
 export const ajouterPhoto = (req, res) => {
 
 
+    const obj = Object.keys(req.body)[0]
+
+
+
     const {
         erreurs,
         estValide
-    } = validePhotoInput(req.body);
+    } = validePhotoInput(JSON.parse(obj));
 
 
 
@@ -131,11 +139,11 @@ export const ajouterPhoto = (req, res) => {
 
         const photo = {}
 
-        for (var key in req.body) {
+        for (var key in JSON.parse(obj)) {
 
-            if (JSON.parse(JSON.stringify(req.body)).hasOwnProperty(key)) {
+            if (JSON.parse(obj).hasOwnProperty(key)) {
 
-                photo[key] = req.body[key]
+                photo[key] = JSON.parse(obj)[key]
             }
 
         }
@@ -155,9 +163,6 @@ export const ajouterPhoto = (req, res) => {
                 return res.status(404).json(err);
 
             } else {
-
-
-
 
 
 

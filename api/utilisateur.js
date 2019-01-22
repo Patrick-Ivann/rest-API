@@ -135,7 +135,6 @@ export const connexionUtilisateur = (req, res) => {
 
 
 
-/*
 
 /**
  * 
@@ -143,53 +142,51 @@ export const connexionUtilisateur = (req, res) => {
  * @param {*} res 
  * 
  * TODO reactiver la fonction de vérification des input pour l'ajout utilisateur
- 
+ */
 export const ajouterUtilisateur = (req, res) => {
 
-    // const {
-    //     erreurs,
-    //     estValide
-    // } = valideUtilisateurInput(req.body);
 
-    /* 
-
-        if (!estValide) {
+    const obj = Object.keys(req.body)[0]
 
 
+    const {
+        erreurs,
+        estValide
+    } = valideUtilisateurInput(JSON.parse(obj));
 
-            return res.status(400).json(erreurs);
-            
-        } else { 
 
-    const utilisateur = {}
 
-    for (var key in req.body) {
+    if (!estValide) {
 
-        if (JSON.parse(JSON.stringify(req.body)).hasOwnProperty(key)) {
 
-            utilisateur[key] = req.body[key]
+
+        return res.status(400).json(erreurs);
+
+    } else {
+
+        const utilisateur = {}
+
+        for (var key in JSON.parse(obj)) {
+
+            if (JSON.parse(obj).hasOwnProperty(key)) {
+
+                utilisateur[key] = JSON.parse(obj)[key]
+            }
+
         }
+
+
+        utilisateur["date_creation_user"] = moment().format('YYYY/MM/D hh:mm:ss SSS')
+
+
+        connexion.query(AJOUTER_UTILISATEUR, [utilisateur.prenom, utilisateur.nom, utilisateur.rang, utilisateur.adresse_mail, utilisateur.mot_de_passe, utilisateur.date_creation_user, utilisateur.url_avatar, utilisateur.lieu], (err, rows, fields) => {
+
+            if (err) {
+                return res.status(404).json(err);
+            }
+
+            return res.json(rows);
+        })
 
     }
-
-
-    utilisateur["date_creation_user"] = moment().format('YYYY/MM/D hh:mm:ss SSS')
-
-
-
-
-
-
-
-    connexion.query(AJOUTER_UTILISATEUR, [utilisateur.prenom, utilisateur.nom, utilisateur.rang, utilisateur.adresse_mail, utilisateur.mot_de_passe, utilisateur.date_creation_user, utilisateur.url_avatar, utilisateur.lieu], (err, rows, fields) => {
-
-        if (err) {
-            return res.status(404).json(err);
-        }
-
-        return res.json(rows);
-    })
-
 }
-
-*/

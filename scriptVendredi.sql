@@ -144,6 +144,11 @@
 --                         ALTER TABLE Idee ADD INDEX idx_nom_idee(nom_idee);
 --                         ALTER TABLE Lieu ADD INDEX idx_nom_lieu_Lieu(nom_lieu_Lieu);
 
+                            -- ALTER TABLE `evenement` ADD `type_event` INT NULL DEFAULT '1' COMMENT 'réccurent ou spontané' AFTER `nom_event`;
+-- ALTER TABLE `evenement` ADD `prix` DECIMAL(10,2) NOT NULL DEFAULT '0' COMMENT 'prix des evenements' AFTER `type_event`;
+
+
+
 
 -- DELIMITER //
 
@@ -319,3 +324,60 @@ VALUES(
 END IF;
 END
 
+
+BEGIN
+    IF EXISTS
+        (
+        SELECT
+            nom_lieu_Lieu
+        FROM
+            lieu
+        WHERE
+            nom_lieu_Lieu = lieu
+    ) THEN
+INSERT
+INTO
+    `evenement`(
+        `nom_event`,
+        `type_event`,
+        `prix`,
+        `date_debut_event`,
+        `date_fin_event`,
+        `date_creation_event`,
+        `id_lieu_Lieu`
+    )
+VALUES(
+    nom_event,
+   type_event,
+        prix,
+    
+    date_debut_event,
+    date_fin_event,
+    date_creation_event,
+    ( SELECT id_lieu_Lieu FROM lieu WHERE nom_lieu_Lieu = lieu)); 
+ELSE
+INSERT
+INTO
+    lieu(nom_lieu_lieu)
+VALUES(lieu);
+INSERT
+    INTO
+    evenement(
+        `nom_event`,
+        `type_event`,
+        `prix`,
+        `date_debut_event`,
+        `date_fin_event`,
+        `date_creation_event`,
+        `id_lieu_Lieu`
+    )
+VALUES(
+    nom_event,
+    type_event,
+        prix,
+    date_debut_event,
+    date_fin_event,
+    date_creation_event,
+    ( SELECT id_lieu_Lieu FROM lieu WHERE nom_lieu_Lieu = lieu));
+END IF;
+END
