@@ -1,5 +1,3 @@
-import mysql from 'mysql';
-import bcrypt from 'bcryptjs'
 import moment from 'moment';
 import {
 
@@ -16,7 +14,9 @@ import {
     validePhoto,
     valideUtilisateur,
     valideUtilisateurInput,
-    valideConnexionInput
+    valideConnexionInput,
+
+
 } from '../validation/validationInput';
 import connexion from '../functions/connexion';
 
@@ -29,8 +29,25 @@ export const recupererTousLesUtilisateur = (req, res) => {
 
     connexion.query(RECUPERER_TOUS_LES_UTILISATEURS, (err, rows, fields) => {
 
+        if (err) {
 
-        return res.json(rows);
+            erreur.sql = "une erreur coté SQL vient d'arriver"
+
+            return res.status(404).json(erreur);
+        }
+
+        if (rows === []) {
+
+            erreur.bddVide = "Il n'y a aucun utilisateur à afficher."
+            return res.status(404).json(erreur);
+        }
+        if (rows.length === 1) {
+            return res.json(rows[0]);
+        } else {
+
+
+            return res.json(rows);
+        }
 
     })
 
@@ -44,7 +61,13 @@ export const recupererUtilisateurParId = (req, res) => {
     connexion.query(RECUPERER_UTILISATEUR_PAR_ID, req.params.id, (err, rows, fields) => {
 
 
-        return res.json(rows);
+        if (rows.length === 1) {
+            return res.json(rows[0]);
+        } else {
+
+
+            return res.json(rows);
+        }
     });
 
 
@@ -55,7 +78,13 @@ export const recupererUtilisateurParId = (req, res) => {
 export const recupererUtilisateurParMail = (req, res) => {
 
     connexion.query(RECUPERER_UTILISATEUR_PAR_MAIL, req.params.mail, (err, rows, fields) => {
-        return res.json(rows);
+        if (rows.length === 1) {
+            return res.json(rows[0]);
+        } else {
+
+
+            return res.json(rows);
+        }
     });
 
 
@@ -63,61 +92,134 @@ export const recupererUtilisateurParMail = (req, res) => {
 
 }
 
+
+export const ajouterAvatar = (req, res) => {
+
+    var formulaire = {}
+    var fichier = {}
+
+
+    new formidable.IncomingForm().parse(req)
+
+
+        .on('field', function (name, field) {
+            console.log('valeur dans field ', field);
+            console.log("cle dans field " + name);
+
+            if (name === 'formulaire') {
+                JSON.parse(field)
+
+                for (var key in JSON.parse(field)) {
+
+                    if (JSON.parse(field).hasOwnProperty(key)) {
+
+                        formulaire[key] = JSON.parse(field)[key]
+
+                    }
+
+                }
+
+            }
+
+
+        })
+        .on('fileBegin', function (name, file) {
+
+            console.log("ligne 158" + name);
+            let extension = file.name.split(".")
+            console.log(extension[1]);
+
+            file.path = path.join(__dirname, '../photos/avatar') + file.name;
+
+            console.log("filepath ligne 76" + file.path)
+
+            fichier.path = file.path
+            fichier.name = file.name
+
+        })
+        .on('error', function (err) {
+            console.log(err);
+        })
+        .on('end', function () {
+
+            console.log(formulaire);
+            console.log(fichier)
+            ajouterAvatarBdd(formulaire, fichier)
+
+        });
+
+
+
+    // connexion.query(AJOUTER_AVATAR, )
+}
+
+
+export const ajouterAvatarBdd = (formulaire, fichier) => {
+
+    obj = Object.assign({}, formulaire, fichier)
+
+    console.log(obj);
+
+
+}
+
+
+
+
+
 export const connexionUtilisateur = (req, res) => {
+
+
+    const obj = Object.keys(req.body)[0]
+
+
+
 
     const {
         erreurs,
-        isValide
-    } = valideConnexionInput(req.body);
-
-    if (!isValide) {
-
-        return res.status(400).json(errors);
-
-    }
-
-    const email = req.body.email;
-    const mot_de_passe = req.body.mot_de_passe;
+        estValide
+    } = valideConnexionInput(JSON.parse(obj));
 
 
 
+    if (!estValide) {
 
-    connexion.query(CONNEXION_UTILISATEUR, email, (err, rows, fields) => {
+
+
+        return res.status(400).json(erreurs);
+
+    } else {
+
+
+        var formulaire = {}
+
+
+        for (var key in JSON.parse(obj)) {
+
+            if (JSON.parse(obj).hasOwnProperty(key)) {
+
+                formulaire[key] = JSON.parse(obj)[key]
+
+            }
+
+        }
+
+
+
+        const email = JSON.parse(obj).adresse_mail;
+
+
+
+
+
+        connexion.query(CONNEXION_UTILISATEUR, email, (err, rows, fields) => {
 
             if (err) {
 
                 return res.status(404).json(err);
             }
 
-
-            bcrypt.compare(mot_de_passe, row.mot_de_passe).then(correct => {
-                if (correct) {
-
-
-
-
-                    // on a trouvé le mec on peut donc le donner un token
-
-                    const payload = {
-                        id: rows.id_user,
-                        id_lieu: rows.id_lieu_lieu,
-                        avatar: rows.url_avatar
-
-                    }
-                    jwt.sign(payload, keys.secretOrKey, {
-                        expiresIn: "30min"
-                    }, (err, token) => {
-                        return res.json({
-                            connecte: true,
-                            token: "Bearer " + token
-                        });
-                    });
-
-                } else {
-                    erreur.password = 'mauvais mot de passe';
-                    return res.status(404).json(erreur);
-                }
-            })
+            return res.json(rows);
 
 
 
@@ -126,12 +228,14 @@ export const connexionUtilisateur = (req, res) => {
 
 
 
-        .catch(err => console.log(err));
 
 
 
 
-};
+
+    };
+
+}
 
 
 
@@ -177,6 +281,9 @@ export const ajouterUtilisateur = (req, res) => {
 
 
         utilisateur["date_creation_user"] = moment().format('YYYY/MM/D hh:mm:ss SSS')
+        utilisateur["rang"] = 0;
+        utilisateur["url_avatar"] = "null"
+
 
 
         connexion.query(AJOUTER_UTILISATEUR, [utilisateur.prenom, utilisateur.nom, utilisateur.rang, utilisateur.adresse_mail, utilisateur.mot_de_passe, utilisateur.date_creation_user, utilisateur.url_avatar, utilisateur.lieu], (err, rows, fields) => {

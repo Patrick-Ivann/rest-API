@@ -58,9 +58,24 @@ export const recupererProduit = (req, res) => {
  */
 export const publierUnAchat = (req, res) => {
 
-    var values = Object.values(req.body);
 
-    connexion.query(PUBLIER_UN_ACHAT, values, (err, rows, fields) => {
+    const obj = Object.keys(req.body)[0]
+
+    const achat = {}
+
+    for (var key in JSON.parse(obj)) {
+
+        if (JSON.parse(obj).hasOwnProperty(key)) {
+
+            achat[key] = JSON.parse(obj)[key]
+
+            console.log(achat);
+
+        }
+
+    }
+
+    connexion.query(PUBLIER_UN_ACHAT, [achat.id_user, achat.id_produit], (err, rows, fields) => {
         return res.json(rows);
     });
 };

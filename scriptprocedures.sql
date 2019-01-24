@@ -2,17 +2,6 @@ use projet_web;
 
 
 
-CREATE
-PROCEDURE ajouterUtilisateur(
-    IN prenom VARCHAR(45),
-    IN nom VARCHAR(45),
-    IN rang INT,
-    IN adresse_mail TEXT,
-    IN mot_de_passe TEXT,
-    IN date_creation_user DATETIME,
-    IN url_avatar TEXT,
-    IN lieu TEXT
-)
 BEGIN
     IF EXISTS
         (
@@ -40,14 +29,14 @@ VALUES(
     nom,
     rang,
     adresse_mail,
-    SHA1(mot_de_passe),
+    mot_de_passe,
     date_creation_user,
     url_avatar,
     ( SELECT id_lieu_Lieu FROM lieu WHERE nom_lieu_Lieu = lieu)); 
 ELSE
 INSERT
 INTO
-    lieu(nom_lieu)
+    lieu(nom_lieu_lieu)
 VALUES(lieu);
 INSERT
 INTO
@@ -66,7 +55,7 @@ VALUES(
     nom,
     rang,
     adresse_mail,
-    SHA1(mot_de_passe),
+    mot_de_passe,
     date_creation_user,
     url_avatar,
     (
@@ -80,7 +69,6 @@ VALUES(
 );
 END IF;
 END
-
 
 
 

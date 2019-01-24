@@ -146,6 +146,7 @@
 
                             -- ALTER TABLE `evenement` ADD `type_event` INT NULL DEFAULT '1' COMMENT 'réccurent ou spontané' AFTER `nom_event`;
 -- ALTER TABLE `evenement` ADD `prix` DECIMAL(10,2) NOT NULL DEFAULT '0' COMMENT 'prix des evenements' AFTER `type_event`;
+-- ALTER TABLE `photo` CHANGE `url_photo` `url_photo` VARCHAR(225) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
 
 
 

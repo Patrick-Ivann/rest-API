@@ -1,7 +1,6 @@
-import mysql from 'mysql'
 import {
-    RECUPERE_TOUS_LES_PRODUITS,
-    AJOUTER_PRODUIT
+    RECUPERER_TOUS_LES_PRODUITS,
+
 } from "./requetesSql";
 import {
     valideProduitInput
@@ -11,6 +10,9 @@ import {
 import moment from 'moment';
 import formidable from 'formidable'
 import connexion from '../functions/connexion';
+import {
+    AJOUTER_PRODUIT
+} from "./procedures_sql";
 
 
 
@@ -18,10 +20,27 @@ export const recupererTousLesProduits = (req, res) => {
 
     const erreur = {}
 
-    connexion.query(RECUPERE_TOUS_LES_PRODUITS, (err, rows, fields) => {
+    connexion.query(RECUPERER_TOUS_LES_PRODUITS, (err, rows, fields) => {
+
+        if (err) {
+            erreur.sql = "erreur au niveau de la BDD sql" + err
+            res.status(404).json(erreur);
+        }
+
+        if (rows === []) {
+
+            erreur.bddVide = "La BDD ne contient pas de produit."
+            res.status(404).json(erreur);
+        }
+
+        if (rows.length === 1) {
+            return res.json(rows[0]);
+        } else {
 
 
-        return res.json(rows);
+            return res.json(rows);
+        }
+
 
     })
 
@@ -32,10 +51,27 @@ export const recupererProduitParId = (req, res) => {
 
     const erreur = {}
 
-    connexion.query(RECUPERE_PRODUIT_PAR_ID, req.params.id, (err, rows, fields) => {
+    connexion.query(RECUPERER_PRODUIT_PAR_ID, req.params.id, (err, rows, fields) => {
+
+        if (err) {
+            erreur.sql = "erreur au niveau de la BDD sql" + err
+            res.status(404).json(erreur);
+        }
+
+        if (rows === []) {
+
+            erreur.bddVide = "La BDD ne contient pas de produit."
+            res.status(404).json(erreur);
+        }
+
+        if (rows.length === 1) {
+            return res.json(rows[0]);
+        } else {
 
 
-        return res.json(rows);
+            return res.json(rows);
+        }
+
 
     })
 
@@ -52,62 +88,10 @@ export const televerserProduit = (req, res) => {
     const erreurs = {}
 
 
+    console.log("dedans")
 
 
-
-
-    //var form = new formidable.IncomingForm();
-    /*form.parse(req, (err, fields, files) => {
-
-        console.log(fields);
-
-
-        // console.log(fields.id_user);
-        ///console.log(files.fichier);
-
-    });
-
-    form.on('field', function (name, value) {
-
-        console.log(name + value);
-
-    });
-
-    form.on('fileBegin', function (name, file) {
-        file.path = path.join(__dirname, '../photos/') + file.name;
-        //file.name =
-        console.log("filepath ligne 76" + file.path)
-    });
-
-    form.on('aborted', function (err) {
-
-        console.log("annulé");
-
-        // return res.json("kesta t'annule");
-
-        //req.resume()
-    });
-
-    form.on('error', function (err) {
-
-        // console.log(err);
-
-        erreurs.erreurTransfertFichier = "erreur lors du transfert de fichier, veuillez reéssayer ultérieurement.   "
-        return res.status(404).json(err);
-
-    })
-
-    form.on('end', function () {
-
-
-    });
-
-
-    form.on('file', function (name, file) {
-        console.log('Uploaded ' + file.name);
-
-
-        /**
+    /**
          * TODO faire passer l'id_event,l'id_user, la legende à la bdd
          
 
@@ -117,69 +101,106 @@ export const televerserProduit = (req, res) => {
 
     });*/
 
+    var formulaire = {}
+    var fichier = {}
+
 
     new formidable.IncomingForm().parse(req)
-        .on('file', function (name, file) {
-            console.log('Got file:', name);
-        })
+
+
         .on('field', function (name, field) {
-            console.log('Got a field:', field[0]);
+            console.log('valeur dans field ', field);
+            console.log("cle dans field " + name);
+
+            if (name === 'formulaire') {
+                JSON.parse(field)
+
+                for (var key in JSON.parse(field)) {
+
+                    if (JSON.parse(field).hasOwnProperty(key)) {
+
+                        formulaire[key] = JSON.parse(field)[key]
+
+                    }
+
+                }
+
+                const {
+                    erreurs,
+                    estValide
+                } = valideProduitInput(JSON.parse(field));
+
+
+
+                if (!estValide) {
+
+
+
+                    return res.status(400).json(erreurs);
+
+                }
+            }
+
+
+        })
+        .on('fileBegin', function (name, file) {
+
+            console.log("ligne 158" + name);
+            let extension = file.name.split(".")
+            console.log(extension[1]);
+
+            file.name = file['name'].replace(/\s+/g, "-");
+
+
+            fichier.name = `Produit_${file.name}`
+            file.name = fichier.name
+            //file.name = extension[0] + "." + name
+            //file.name = "user_id-date-jsp" + "." + name
+            file.path = path.join(__dirname, '../photos/') + file.name;
+            fichier.url_image_produit = file.path
+            //file.name =
+
+
         })
         .on('error', function (err) {
             console.log(err);
         })
         .on('end', function () {
-            res.end();
+
+            console.log(formulaire);
+            console.log(fichier)
+
+            res.send(ajouterProduit(formulaire, fichier))
+
+
+            //res.end();
         });
 
 };
 
 
-export const ajouterProduit = (req, res) => {
-
-    const {
-        erreurs,
-        estValide
-    } = valideProduitInput(req.body);
+export const ajouterProduit = (formulaire, fichier) => {
 
 
 
-    if (!estValide) {
+    const produit = {}
 
 
 
-        return res.status(400).json(erreurs);
+    produit["date_creation_produit"] = moment().format('YYYY/MM/D hh:mm:ss SSS')
 
-    } else {
 
-        const produit = {}
+    connexion.query(AJOUTER_PRODUIT, [formulaire.nom_produit, formulaire.prix_produit, fichier.url_image_produit, produit.date_creation_produit], (err, rows, fields) => {
 
-        for (var key in req.body) {
-
-            if (JSON.parse(JSON.stringify(req.body)).hasOwnProperty(key)) {
-
-                produit[key] = req.body[key]
-            }
-
+        if (err) {
+            return err;
         }
 
 
-        produit["date_creation_produit"] = moment().format('YYYY/MM/D hh:mm:ss SSS')
 
+        return rows;
+    })
 
-        var sql = "CALL ajout(?,?,?,?)"
-        connexion.query(sql, [produit.nom_produit, produit.prix_produit, produit.url_image_produit, produit.date_creation_produit], (err, rows, fields) => {
-
-            if (err) {
-                res.status(400).json(err);
-            }
-
-
-
-            return res.json(rows);
-        })
-
-    }
 
 
 

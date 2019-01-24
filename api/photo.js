@@ -1,8 +1,9 @@
-import mysql from 'mysql'
 import {
-    RECUPERE_TOUTES_LES_PHOTOS,
-    RECUPERE_PHOTO_PAR_ID,
-    AJOUTER_PHOTO
+    AJOUTER_PHOTO,
+    RECUPERER_EVENEMENT_PAR_LIEU,
+    RECUPERER_TOUTES_LES_PHOTOS,
+    RECUPERER_PHOTO_PAR_ID,
+    RECUPERER_PHOTO_PAR_ID_EVENEMENT
 } from "./requetesSql";
 import {
     validePhotoInput
@@ -15,12 +16,22 @@ import connexion from '../functions/connexion';
 
 export const recupererToutesLesPhotos = (req, res) => {
 
-    const erreur = {}
+    const erreurs = {}
 
-    connexion.query(RECUPERE_TOUTES_LES_PHOTOS, (err, rows, fields) => {
+    connexion.query(RECUPERER_TOUTES_LES_PHOTOS, (err, rows, fields) => {
+
+        if (err) {
+            erreurs.sql = "erreur avec la base de donnée SQL" + err
+            return res.status(404).json(erreurs);
+        }
+
+        if (rows.length === 1) {
+            return res.json(rows[0]);
+        } else {
 
 
-        return res.json(rows);
+            return res.json(rows);
+        }
 
     })
 
@@ -29,21 +40,52 @@ export const recupererToutesLesPhotos = (req, res) => {
 
 export const recupererPhotoParId = (req, res) => {
 
-    const erreur = {}
+    const erreurs = {}
 
-    connexion.query(RECUPERE_PHOTO_PAR_ID, req.params.id, (err, rows, fields) => {
+    connexion.query(RECUPERER_PHOTO_PAR_ID, req.params.id, (err, rows, fields) => {
 
 
         if (err) {
-
+            erreurs.sql = "erreur avec la base de donnée SQL" + err
             return res.status(404).json(err);
         }
-        return res.json(rows);
+        return res.json(rows[0]);
 
     })
 
 
 }
+
+/**
+ * @alias /recuperer/evenement/:id
+ * @param {*} req 
+ * @param {*} res 
+ */
+export const recupererPhotoParIdEvenement = (req, res) => {
+
+
+    const erreurs = {}
+
+    connexion.query(RECUPERER_PHOTO_PAR_ID_EVENEMENT, req.params.id, (err, rows, fields) => {
+
+        if (err) {
+            erreurs.sql = "erreur avec la base de donnée SQL" + err
+            console.log(err);
+            return res.status(404).json(erreurs);
+        }
+
+        if (rows.length === 1) {
+            return res.json(rows[0]);
+        } else {
+
+
+            return res.json(rows);
+        }
+
+
+    })
+};
+
 
 
 
@@ -54,123 +96,110 @@ export const televerserPhoto = (req, res) => {
     const erreurs = {}
 
 
-    var that = {}
+    var formulaire = {}
+    var fichier = {}
 
 
-    var form = new formidable.IncomingForm();
-    form.parse(req, (err, fields, files) => {
-
-        that["id_user"] = fields["id_user"]
-        that["legende_photo"] = fields["legende_photo"]
-        // console.log(fields.id_user);
-        ///console.log(files.fichier);
-
-    });
-
-    form.on('field', function (name, value) {
-
-        console.log(name + value);
-    });
-
-    form.on('fileBegin', function (name, file) {
-        file.path = path.join(__dirname, '../photos/') + file.name;
-        //file.name =
-        console.log(file.path)
-    });
-
-    form.on('aborted', function () {
-
-        console.log("erreur");
-
-        req.resume()
-    });
-
-    form.on('error', function (err) {
-
-        console.log(err);
-
-        erreurs.erreurTransfertFichier = "erreur lors du transfert de fichier, veuillez reéssayer ultérieurement.   "
-        return res.status(404).json(erreurs);
-
-    })
-
-    console.log(that);
-
-    form.on('file', function (name, file) {
-        console.log('Uploaded ' + file.name);
-
-        console.log(that)
-
-        /**
-         * TODO faire passer l'id_event,l'id_user, la legende à la bdd
-         */
+    new formidable.IncomingForm().parse(req)
 
 
-        // rajouterFicherAprosit(file, res)
-        //return res.send();
+        .on('field', function (name, field) {
+            console.log('valeur dans field ', field);
+            console.log("cle dans field " + name);
 
-    });
+            if (name === 'formulaire') {
+                JSON.parse(field)
+
+                for (var key in JSON.parse(field)) {
+
+                    if (JSON.parse(field).hasOwnProperty(key)) {
+
+                        formulaire[key] = JSON.parse(field)[key]
+
+                    }
+
+                }
+
+                const {
+                    erreurs,
+                    estValide
+                } = validePhotoInput(JSON.parse(field));
+
+
+
+                if (!estValide) {
+
+
+
+                    return res.status(400).json(erreurs);
+
+                }
+            }
+
+
+        })
+        .on('fileBegin', function (name, file) {
+
+            console.log("ligne 158" + name);
+            let extension = file.name.split(".")
+            console.log(extension[1]);
+
+            file.name = file['name'].replace(/\s+/g, "-");
+
+
+            fichier.name = `Photo_${file.name}`
+            file.name = fichier.name
+            file.path = path.join(__dirname, '../photos/') + file.name;
+            fichier.url_photo = file.path
+
+
+        })
+        .on('error', function (err) {
+            console.log(err);
+        })
+        .on('end', function () {
+
+            console.log(formulaire);
+            console.log(fichier)
+
+            res.send(ajouterPhoto(formulaire, fichier))
+
+
+            //res.end();
+        });
 
 };
 
 
 
-export const ajouterPhoto = (req, res) => {
+export const ajouterPhoto = (formulaire, fichier) => {
+
+    console.log(formulaire)
+    var obj = {}
+
+    obj.url_photo = fichier.url_photo
+    obj.legende_photo = formulaire.legende_photo
+    obj.id_user = formulaire.id_user
+    obj.id_event = formulaire.id_event
+
+    obj["date_creation_photo"] = moment().format('YYYY/MM/D hh:mm:ss SSS')
+
+    console.log(obj);
 
 
-    const obj = Object.keys(req.body)[0]
+    connexion.query(AJOUTER_PHOTO, obj, (err, rows, fields) => {
 
+        if (err) {
 
+            return err;
 
-    const {
-        erreurs,
-        estValide
-    } = validePhotoInput(JSON.parse(obj));
+        } else {
 
-
-
-    if (!estValide) {
-
-
-
-        return res.status(400).json(erreurs);
-
-    } else {
-
-        const photo = {}
-
-        for (var key in JSON.parse(obj)) {
-
-            if (JSON.parse(obj).hasOwnProperty(key)) {
-
-                photo[key] = JSON.parse(obj)[key]
-            }
+            return rows;
 
         }
-        /**
-         * TODO ajouter la fonction de téléversement du fichier photo en lui meme 
-         * !ajouter dépendance pour avoir l'objet file
-         * 
-         */
-
-        photo["date_creation_photo"] = moment().format('YYYY/MM/D hh:mm:ss SSS')
-
-
-        connexion.query(AJOUTER_PHOTO, photo, (err, rows, fields) => {
-
-            if (err) {
-
-                return res.status(404).json(err);
-
-            } else {
+    })
 
 
 
-                return res.json(rows);
-
-            }
-        })
-
-
-    }
 }

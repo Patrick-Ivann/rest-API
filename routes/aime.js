@@ -21,7 +21,7 @@ router.route("/recuperer/utilisateur/:id([0-9]*)")
 router.route("/recuperer/photo/:id([0-9]*)")
     .get(recupererPhotoAimee);
 
-router.route("/ajouter/")
+router.route("/ajouter")
     .post(verificationEmetteur, publierUnLikeSurPhoto);
 
 module.exports = router;

@@ -10,9 +10,6 @@ export const valideConnexionInput = (data) => {
         erreurs.adresse_mail = "Le mail ne doit pas etre vide."
     }
 
-    if (Validator.isEmpty(data.mot_de_passe) || !data.mot_de_passe) {
-        erreurs.mot_de_passe = "Le mot de passe ne doit pas etre vide."
-    }
 
 
     if (data.adresse_mail == !typeof String || !Validator.isEmail(data.adresse_mail)) {
@@ -20,9 +17,6 @@ export const valideConnexionInput = (data) => {
     }
 
 
-    if (data.mot_de_passe == !typeof String) {
-        erreurs.typeNomProduit = "Le nom de l'evenement doit être une chaîne de caractère."
-    }
 
 
 
@@ -47,13 +41,8 @@ export function valideProduitInput(data) {
         erreurs.nom_produit = "le nom du produit ne doit pas etre vide"
     }
 
-    if (Validator.isEmpty(data.prix_produit) || !data.prix_produit) {
+    if (Validator.isEmpty(data.prix_produit.toString()) || !data.prix_produit) {
         erreurs.prix_produit = "le prix du produit ne doit pas etre vide"
-    }
-
-    if (Validator.isEmpty(data.url_image_produit) || !data.url_image_produit) {
-
-        erreurs.url_image_produit = "l'image doit avoir une adresse"
     }
 
 
@@ -65,10 +54,6 @@ export function valideProduitInput(data) {
         erreurs.typePrix_produit = "Le prix du produit doit être une chaîne de caractère."
     }
 
-
-    if (data.url_image_produit == !typeof String) {
-        erreurs.typeUrl_image_produit = "L'url de l'image doit être une chaîne de caractère."
-    }
 
 
 
@@ -147,6 +132,9 @@ export const validePhotoInput = (data) => {
 
 export const valideIdeeInput = (data) => {
 
+    let erreurs = {}
+
+
     if (Validator.isEmpty(data.nom_idee) || !data.nom_idee) {
 
         erreurs.nom_idee = "Le nom de l'idée ne doit pas etre vide."
@@ -177,6 +165,9 @@ export const valideIdeeInput = (data) => {
 
 export const valideLieuInput = (data) => {
 
+    let erreurs = {}
+
+
     if (Validator.isEmpty(data.nomLieu) || !data.nomLieu) {
 
         erreurs.nomLieu = "Le nom du lieu ne doit pas etre vide"
@@ -197,6 +188,9 @@ export const valideLieuInput = (data) => {
 
 export const valideCommentaireInput = (data) => {
 
+    let erreurs = {}
+
+
     if (Validator.isEmpty(data.texte_commentaire) || !data.texte_commentaire) {
 
         erreurs.texte_commentaire = "Le texte du commentaire ne doit pas etre vide."
@@ -216,8 +210,29 @@ export const valideCommentaireInput = (data) => {
 
 };
 
+/*export const ValideConnexionInput = (data) => {
+
+    if (Validator.isEmpty(data.adresse_mail) || !data.adresse_mail) {
+
+        erreurs.adresse_mail = "Le mail ne doit pas etre vide."
+    }
+
+    if (Validator.isEmail(data.adresse_mail)) {
+        erreurs.adresse_mailType = "l'adresse mail n'est pas une adresse Mail"
+    }
+    if (data.adresse_mail == !typeof String) {
+        erreurs.typePrenom = "L'adresse mail doit être une chaîne de caractère."
+    }
+
+}; */
+
+
 
 export const valideUtilisateurInput = (data) => {
+
+    let erreurs = {}
+
+
 
     if (Validator.isEmpty(data.prenom) || !data.prenom) {
 
@@ -228,10 +243,7 @@ export const valideUtilisateurInput = (data) => {
         erreurs.nom = "Le nom ne doit pas etre vide."
     }
 
-    if (Validator.isEmpty(data.rang) || !data.rang) {
 
-        erreurs.rang = "Le rang ne doit etre vide"
-    }
 
     if (Validator.isEmpty(data.adresse_mail) || !data.adresse_mail) {
 
@@ -255,9 +267,6 @@ export const valideUtilisateurInput = (data) => {
         erreurs.typeNom = "le nom d'utilisateur doit être une chaîne de caractère."
     }
 
-    if (data.rang == !typeof Number) {
-        erreurs.typeRang = "la date du debut de doit être une chaîne de caractère."
-    }
 
 
     if (data.adresse_mail == !typeof String || !Validator.isEmail(data.adresse_mail)) {

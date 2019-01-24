@@ -38,7 +38,15 @@ export const recupererTousLesEvenements = (req, res) => {
             return res.status(404).json(err);
         }
 
-        return res.json(rows);
+        if (rows.length === 1) {
+            return res.json(rows[0]);
+        } else {
+
+
+            return res.json(rows);
+        }
+
+
 
     })
 
@@ -60,10 +68,21 @@ export const recupererEvenementParId = (req, res) => {
     connexion.query(RECUPERER_EVENEMENT_PAR_ID, req.params.id, (err, rows, fields) => {
 
         if (err) {
+            console.log(err);
             return res.status(404).json(err);
         }
 
-        return res.json(rows);
+        console.log(rows);
+
+        if (rows.length === 1) {
+            return res.json(rows[0]);
+        } else {
+
+
+            return res.json(rows);
+        }
+
+
     });
 
 
@@ -143,6 +162,7 @@ export const supprimerEvenement = (req, res) => {
 
 
     const erreurs = {}
+
 
 
     connexion.query(RECUPERER_EVENEMENT_PAR_ID, req.params.id, (err, rows, fields) => {

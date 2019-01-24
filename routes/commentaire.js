@@ -1,5 +1,10 @@
 import express from 'express'
-import {recupererCommentaireParId, recupererTousLesCommentaire} from "../api/commentaire";
+import {
+    recupererCommentaireParId,
+    recupererTousLesCommentaire,
+    recupererCommentaireParIdPhoto,
+    ajouterCommentaire
+} from "../api/commentaire";
 
 
 const router = express.Router();
@@ -10,5 +15,12 @@ router.route("/recuperer/")
 router.route("/recuperer/:id([0-9]*)")
     .get(recupererCommentaireParId);
 
+router.route("/recuperer/photo/:id([0-9]*)")
+    .get(recupererCommentaireParIdPhoto)
 
-module.exports = router ;
+
+
+
+router.route("/ajouter")
+    .post(ajouterCommentaire)
+module.exports = router;
