@@ -116,6 +116,14 @@
 --                         (11) NOT NULL, PRIMARY KEY
 --                         (id_user,  id_event_idee)) ENGINE=InnoDB;
 
+--  DROP TABLE IF EXISTS signaler
+--                ;
+--                CREATE TABLE signaler
+--                (
+--                  id_user Int(11)  NOT NULL, 
+--                    id_photo Int (11) NOT NULL, 
+--                    PRIMARY KEY (id_user,  id_photo)) ENGINE=InnoDB;
+                
 
 --                         ALTER TABLE Evenement ADD CONSTRAINT FK_Evenement_id_lieu_Lieu FOREIGN KEY (id_lieu_Lieu) REFERENCES Lieu (id_lieu_Lieu); ON UPDATE CASCADE ON DELETE CASCADE;
 --                         ALTER TABLE Utilisateur ADD CONSTRAINT FK_Utilisateur_id_lieu_Lieu FOREIGN KEY (id_lieu_Lieu) REFERENCES Lieu (id_lieu_Lieu);ON UPDATE CASCADE ON DELETE CASCADE;
@@ -123,6 +131,8 @@
 --                         ALTER TABLE Commentaire ADD CONSTRAINT FK_Commentaire_id_photo FOREIGN KEY (id_photo) REFERENCES Photo (id_photo);ON UPDATE CASCADE ON DELETE CASCADE;
 --                         ALTER TABLE Photo ADD CONSTRAINT FK_Photo_id_event FOREIGN KEY (id_event) REFERENCES Evenement (id_event);ON UPDATE CASCADE ON DELETE CASCADE;
 --                         ALTER TABLE Photo ADD CONSTRAINT FK_Photo_id_user FOREIGN KEY (id_user) REFERENCES Utilisateur (id_user);ON UPDATE CASCADE ON DELETE CASCADE;
+--  ALTER TABLE signaler ADD CONSTRAINT FK_Signaler_id_phoro FOREIGN KEY (id_photo) REFERENCES photo (id_photo) ON UPDATE CASCADE ON DELETE CASCADE;
+--                         ALTER TABLE signaler ADD CONSTRAINT FK_Signaler_id_user FOREIGN KEY (id_user) REFERENCES Utilisateur (id_user) ON UPDATE CASCADE ON DELETE CASCADE;
 --                         ALTER TABLE Idee ADD CONSTRAINT FK_Idee_id_user FOREIGN KEY (id_user) REFERENCES Utilisateur (id_user);ON UPDATE CASCADE ON DELETE CASCADE;
 --                         ALTER TABLE Idee ADD CONSTRAINT FK_Idee_id_lieu_Lieu FOREIGN KEY (id_lieu_Lieu) REFERENCES Lieu (id_lieu_Lieu);ON UPDATE CASCADE ON DELETE CASCADE;
 --                         ALTER TABLE Participer ADD CONSTRAINT FK_Participer_id_user FOREIGN KEY (id_user) REFERENCES Utilisateur (id_user);ON UPDATE CASCADE ON DELETE CASCADE;

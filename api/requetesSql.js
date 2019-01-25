@@ -18,9 +18,8 @@ export const AJOUTER_EVENEMENT = "INSERT INTO evenement SET ?;  SELECT * FROM ev
 export const RECUPERER_TOUTES_LES_PHOTOS = "SELECT * FROM photo"
 export const RECUPERER_PHOTO_PAR_ID = "SELECT * FROM photo where id_photo = ?"
 export const RECUPERER_PHOTO_PAR_ID_EVENEMENT = "SELECT * FROM PHOTO where id_event = ?"
-
-
 export const AJOUTER_PHOTO = "INSERT INTO photo SET ?;"
+export const SUPPRIMER_PHOTO_PAR_ID = "DELETE from photo Where id_photo = ?;"
 
 export const RECUPERER_TOUS_LES_PRODUITS = "SELECT * FROM produit"
 export const RECUPERER_PRODUIT_PAR_ID = "SELECT * FROM produit where id_produit = ?"
@@ -92,3 +91,6 @@ export const PUBLIER_UN_LIKE_SUR_IDEE = "INSERT INTO aime_idee (id_user, id_even
 export const PUBLIER_UN_UTILISATEUR_A_NOTIFIE = "INSERT INTO notifie (id_event_idee, id_user) VALUES (?, ?)";
 
 export const PUBLIER_UN_ACHAT = "INSERT INTO achete (id_user, id_produit) VALUES (?, ?)";
+
+
+export const SIGNALER_PHOTO_PAR_ID_PHOTO = "INSERT into signaler (id_user,id_photo) VALUES(?,?);"

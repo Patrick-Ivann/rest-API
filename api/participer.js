@@ -100,53 +100,45 @@ export const ajouterParticiper = (req, res) => {
     const obj = Object.keys(req.body)[0]
 
 
+    console.log("object")
 
 
-    const {
-        erreurs,
-        estValide
-    } = valideConnexionInput(JSON.parse(obj));
-
-
-
-    if (!estValide) {
+    const erreurs = {}
 
 
 
-        return res.status(404).json(erreurs);
-
-    } else {
 
 
-        var formulaire = {}
 
 
-        for (var key in JSON.parse(obj)) {
+    var formulaire = {}
 
-            if (JSON.parse(obj).hasOwnProperty(key)) {
 
-                formulaire[key] = JSON.parse(obj)[key]
+    for (var key in JSON.parse(obj)) {
 
-            }
+        if (JSON.parse(obj).hasOwnProperty(key)) {
+
+            formulaire[key] = JSON.parse(obj)[key]
 
         }
 
-
-        connexion.query(PARTICIPER_EVENEMENT, [formulaire.id_user, formulaire.id_event], (err, rows, fields) => {
-
-            if (err) {
-                erreurs.sql = "erreur au niveau SQL."
-                return res.status(400).json(erreurs);
-            }
-
-            return res.json(rows);
-
-
-
-
-        })
-
-
-
     }
+
+
+    connexion.query(PARTICIPER_EVENEMENT, [formulaire.id_user, formulaire.id_event], (err, rows, fields) => {
+
+        if (err) {
+            erreurs.sql = "erreur au niveau SQL."
+            return res.status(400).json(erreurs);
+        }
+
+        return res.json(rows);
+
+
+
+
+    })
+
+
+
 }

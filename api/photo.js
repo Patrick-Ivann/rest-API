@@ -203,3 +203,8 @@ export const ajouterPhoto = (formulaire, fichier) => {
 
 
 }
+
+
+/**
+ * TODO LIKER PHOTO 
+ */

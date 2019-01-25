@@ -16,6 +16,7 @@ import idee from './routes/idee'
 import lieu from './routes/lieu';
 import notifie from './routes/notifie'
 import participer from './routes/participer';
+import signaler from './routes/signaler';
 
 /**
  * !AJOUTER UNE METHODE DE LOG POUR LE SQL ET LES REQUETES HTTP
@@ -45,7 +46,8 @@ app.use("/api/commentaire", commentaire);
 app.use("/api/idee", idee);
 app.use("/api/lieu", lieu);
 app.use("/api/notifie", notifie);
-app.use("api/participer", participer);
+app.use("/api/participer", participer);
+app.use("/api/signaler", signaler);
 
 
 

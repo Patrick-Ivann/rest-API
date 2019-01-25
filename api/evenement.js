@@ -131,7 +131,7 @@ export const ajouterEvenement = (req, res) => {
 
 
 
-    if (evenement.nom_event && evenement.type_event && evenement.prix && evenement.date_debut_event && evenement.date_fin_event && evenement.date_creation_event && evenement.nom_lieu) {
+    if (evenement.nom_event && evenement.date_debut_event && evenement.date_fin_event && evenement.date_creation_event && evenement.nom_lieu) {
 
 
         connexion.query(AJOUTER_EVENEMENT, [evenement.nom_event, evenement.type_event, evenement.prix, evenement.date_debut_event, evenement.date_fin_event, evenement.date_creation_event, evenement.nom_lieu], (err, rows, field) => {
