@@ -3,7 +3,8 @@ import express from 'express';
 import {
     recupererTousLesProduits,
     recupererProduitParId,
-    televerserProduit
+    televerserProduit,
+    supprimerProduitParId
 } from "../api/produit";
 import {
     verificationEmetteur
@@ -23,7 +24,8 @@ router.route("/ajouter")
     .post(verificationEmetteur, televerserProduit)
 
 
-
+router.route("/supprimer")
+    .post(verificationEmetteur, supprimerProduitParId)
 
 
 export default router

@@ -12,6 +12,9 @@ import {
     SUPPRIMER_EVENEMENT_PAR_ID,
     RECUPERER_EVENEMENT_PAR_ID,
 } from './requetesSql';
+import {
+    logToTxt
+} from '../functions/functionSheet';
 
 
 
@@ -28,15 +31,18 @@ import {
  */
 export const recupererTousLesEvenements = (req, res) => {
 
-    const erreur = {}
+    const erreurs = {}
 
     connexion.query(RECUPERER_TOUS_LES_EVENEMENTS, (err, rows, fields) => {
 
 
         if (err) {
-            console.log(err)
-            return res.status(404).json(err);
+
+            erreurs.sql = "ERREUR SQL" + err
+            logToTxt(erreurs, "ajout")
+            return res.status(404).json("Vous avez déjà acheté Ce produit.");
         }
+
 
         if (rows.length === 1) {
             return res.json(rows[0]);
@@ -63,14 +69,19 @@ export const recupererTousLesEvenements = (req, res) => {
  */
 export const recupererEvenementParId = (req, res) => {
 
-    const erreur = {}
+    const erreurs = {}
 
     connexion.query(RECUPERER_EVENEMENT_PAR_ID, req.params.id, (err, rows, fields) => {
-
         if (err) {
-            console.log(err);
-            return res.status(404).json(err);
+
+            erreurs.sql = "ERREUR SQL" + err
+            logToTxt(erreurs, "ajout")
+            return res.status(404).json("Vous avez déjà acheté Ce produit.");
         }
+
+
+
+
 
         console.log(rows);
 
@@ -137,7 +148,8 @@ export const ajouterEvenement = (req, res) => {
         connexion.query(AJOUTER_EVENEMENT, [evenement.nom_event, evenement.type_event, evenement.prix, evenement.date_debut_event, evenement.date_fin_event, evenement.date_creation_event, evenement.nom_lieu], (err, rows, field) => {
 
             if (err) {
-                erreurs.sql = err
+                erreurs.sql = "ERREUR SQL" + err
+                logToTxt(erreurs, "ajout")
                 return res.status(404).json(erreurs);
             }
             return res.json(rows);
@@ -168,7 +180,8 @@ export const supprimerEvenement = (req, res) => {
     connexion.query(RECUPERER_EVENEMENT_PAR_ID, req.params.id, (err, rows, fields) => {
 
         if (err) {
-            erreurs.sql = err
+            erreurs.sql = "ERREUR SQL" + err
+            logToTxt(erreur, "ajout")
             return res.status(400).json(erreurs);
         }
 
@@ -179,12 +192,14 @@ export const supprimerEvenement = (req, res) => {
 
                 if (err) {
                     erreurs.sql = err
+                    erreurs.sql = "ERREUR SQL" + err
+                    logToTxt(erreurs, "suprression")
                     return res.status(400).json(erreurs);
                 }
                 if (rows.affectedRows === 0) {
 
                     erreurs.sql = "L'evenement est déja supprimé"
-
+                    logToTxt(erreurs, "suprression")
                 }
 
                 return res.json(rows)
@@ -201,10 +216,12 @@ export const supprimerEvenement = (req, res) => {
 
 
 export const recupererEvenementParLieu = (req, res) => {
-
+    let erreurs = {}
     connexion.query(RECUPERER_EVENEMENT_PAR_LIEU, req.params.lieu, (err, rows, fields) => {
 
         if (err) {
+            erreurs.sql = "ERREUR SQL" + err
+            logToTxt(erreurs, "récupération")
             return res.status(400).json(err);
         }
         return res.json(rows);

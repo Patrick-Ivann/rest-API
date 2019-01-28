@@ -1,5 +1,7 @@
 import {
     RECUPERER_TOUS_LES_PRODUITS,
+    SUPPRIMER_PRODUIT_PAR_ID,
+    RECUPERER_PRODUIT_PAR_ID,
 
 } from "./requetesSql";
 import {
@@ -13,6 +15,9 @@ import connexion from '../functions/connexion';
 import {
     AJOUTER_PRODUIT
 } from "./procedures_sql";
+import {
+    logToTxt
+} from "../functions/functionSheet";
 
 
 
@@ -24,12 +29,14 @@ export const recupererTousLesProduits = (req, res) => {
 
         if (err) {
             erreur.sql = "erreur au niveau de la BDD sql" + err
+            logToTxt(erreur, "récupération")
             res.status(404).json(erreur);
         }
 
         if (rows === []) {
 
             erreur.bddVide = "La BDD ne contient pas de produit."
+            logToTxt(erreur, "récupération")
             res.status(404).json(erreur);
         }
 
@@ -55,12 +62,14 @@ export const recupererProduitParId = (req, res) => {
 
         if (err) {
             erreur.sql = "erreur au niveau de la BDD sql" + err
+            logToTxt(erreur, "récupération")
             res.status(404).json(erreur);
         }
 
         if (rows === []) {
 
             erreur.bddVide = "La BDD ne contient pas de produit."
+            logToTxt(erreur, "récupération")
             res.status(404).json(erreur);
         }
 
@@ -157,13 +166,14 @@ export const televerserProduit = (req, res) => {
             //file.name = extension[0] + "." + name
             //file.name = "user_id-date-jsp" + "." + name
             file.path = path.join(__dirname, '../photos/') + file.name;
-            fichier.url_image_produit = file.path
+            fichier.url_image_produit = file.name
             //file.name =
 
 
         })
         .on('error', function (err) {
             console.log(err);
+            logToTxt(erreur, "televersement")
         })
         .on('end', function () {
 
@@ -192,17 +202,49 @@ export const ajouterProduit = (formulaire, fichier) => {
 
     connexion.query(AJOUTER_PRODUIT, [formulaire.nom_produit, formulaire.prix_produit, fichier.url_image_produit, produit.date_creation_produit], (err, rows, fields) => {
 
+
+
+
+    })
+
+}
+
+
+export const supprimerProduitParId = (req, res) => {
+
+    let erreurs = {}
+
+    connexion.query(RECUPERER_PRODUIT_PAR_ID, req.params.id, (err, rows, fields) => {
+
         if (err) {
-            return err;
+            erreurs.sql = "ERREUR SQL " + err
+            logToTxt(erreurs)
+            return res.status(400).json(erreurs);
         }
 
+        if (rows) {
 
 
-        return rows;
+            connexion.query(SUPPRIMER_PRODUIT_PAR_ID, req.params.id, (err, rows, fields) => {
+
+                if (err) {
+                    erreurs.sql = "ERREUR SQL " + err
+                    logToTxt(erreurs, "suppression")
+                    return res.status(400).json(erreurs);
+                }
+                if (rows.affectedRows === 0) {
+
+                    erreurs.sql = "L'evenement est déja supprimé"
+                    logToTxt(erreurs, "suppression")
+                    return res.status(403).json(erreurs);
+                }
+
+                return res.json(rows)
+            })
+        }
+
     })
 
 
-
-
-
+    return res.status(404).json(erreur);
 }

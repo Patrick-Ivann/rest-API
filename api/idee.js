@@ -49,13 +49,29 @@ export const ajouterIdee = (req, res) => {
 
     const obj = Object.keys(req.body)[0]
 
+
+
+    /*obj is the stringified version of our body 
+    {
+         "nom_idee": "une nouvelle id\u00e9e",
+         "description_idee": "on va faire ceci",
+         "lieu": "tls"
+     }*/
+
+    /* req.body should contain every field of the form sent by symfony filled up the user 
+        when he create an idea
+    /* [Object: null prototype] {
+         '{"nom_idee":"une nouvelle id\\u00e9e","description_idee":"on va faire ceci","lieu":"tls"}': ''
+     }*/
+
+
     const {
         erreurs,
         estValide
-    } = valideIdeeInput(JSON.parse(obj));
+    } = valideIdeeInput(JSON.parse(obj)); // testing inside 
 
     if (!estValide) {
-        return res.json(erreurs);
+        return res.json(erreurs); // if the "estValide" variable is not declared or true then we throw an error
     }
 
 

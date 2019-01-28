@@ -22,8 +22,8 @@ export const AJOUTER_PHOTO = "INSERT INTO photo SET ?;"
 export const SUPPRIMER_PHOTO_PAR_ID = "DELETE from photo Where id_photo = ?;"
 
 export const RECUPERER_TOUS_LES_PRODUITS = "SELECT * FROM produit"
-export const RECUPERER_PRODUIT_PAR_ID = "SELECT * FROM produit where id_produit = ?"
-
+export const RECUPERER_PRODUIT_PAR_ID = "SELECT * FROM produit where id_produit = ?;"
+export const SUPPRIMER_PRODUIT_PAR_ID = "DELETE from produit where id_produit = ?;"
 export const AJOUTER_PRODUIT = "INSERT INTO produit SET ?;  "
 
 
@@ -34,7 +34,7 @@ export const RECUPERER_UTILISATEUR_PAR_ID = "SELECT * FROM utilisateur WHERE id_
 export const RECUPERER_UTILISATEUR_PAR_MAIL = "SELECT * FROM utilisateur WHERE adresse_mail = ?";
 export const SUPPRIMER_UTILISATEUR_PAR_ID = `DELETE FROM utilisateur WHERE id_user = ?; ${RECUPERER_TOUS_LES_UTILISATEURS}`
 export const CONNEXION_UTILISATEUR = "SELECT * FROM utilisateur WHERE adresse_mail = ?"
-
+export const AJOUTER_AVATAR = "UPDATE utilisateur SET   url_avatar = ? WHERE id_user = ?;"
 
 
 export const RECUPERER_TOUS_LES_EVENEMENTS = "SELECT * FROM evenement";
@@ -67,7 +67,7 @@ export const PUBLIER_UN_LIKE_SUR_PHOTO = "INSERT INTO aime (id_user, id_photo) V
 
 export const RECUPERER_TOUTES_LES_PARTICIPATIONS = "SELECT * FROM participer";
 export const RECUPERER_PARTICIPANT = "SELECT * FROM participer WHERE id_user = ?";
-export const RECUPERER_EVENEMENT_PARTICIPE = "SELECT * FROM participer WHERE id_event = ?";
+export const RECUPERER_EVENEMENT_PARTICIPE = "SELECT utilisateur.id_user,prenom,nom,adresse_mail  FROM participer INNER JOIN utilisateur ON utilisateur.id_user = participer.id_user WHERE id_event = ? ";
 export const PARTICIPER_EVENEMENT = "INSERT INTO participer (id_user, id_event) VALUES (?, ?);"
 
 export const RECUPERER_TOUTES_LES_NOTIFS = "SELECT * FROM notifie";
@@ -80,6 +80,8 @@ export const RECUPERER_UTILISATEUR_NOTIF = "SELECT * FROM notifie WHERE id_user 
 export const RECUPERER_TOUS_LES_ACHATS = "SELECT * FROM achete";
 export const RECUPERER_ACHETEUR = "SELECT * FROM achete WHERE id_user = ?";
 export const RECUPERER_PRODUIT = "SELECT * FROM achete WHERE id_produit = ?";
+export const RECUPERER_ACHAT_PAR_ID_UTILISATEUR = "SELECT id_produit FROM achete WHERE id_user = ?"
+
 
 export const RECUPERER_TOUS_LES_EVENT_IDEE_AIMEE = "SELECT * FROM aime_idee";
 export const RECUPERER_UTIILISATEUR_AIME_IDEE_EVENT = "SELECT * FROM aime_idee WHERE id_user = ?";

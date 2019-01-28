@@ -8,9 +8,13 @@ moment.locale("fr")
 export const logToTxt = (texte, nomFichier) => {
 
     var date = new Date();
-    var log_file = fs.createWriteStream(__dirname + `/logs/${nomFichier}-${date.getDate()}-${date.getMonth()+1}.log`, {
+    var log_file = fs.createWriteStream(`../rest API/logs/${nomFichier}-${date.getMonth()+1}.log`, {
         flags: 'a'
     });
+
+
+
+
 
     log_file.write(util.format(texte) +
         moment().format('LTS') + " " + // hh:min:ss 

@@ -10,10 +10,14 @@ import {
 import {
     valideCommentaireInput
 } from '../validation/validationInput';
+import {
+    logToTxt
+} from '../functions/functionSheet';
 
 
 /**
- * @access
+ * @VERB GET
+ * @access protected 
  * @alias /api/commentaire/recuperer
  * @param {*} req 
  * @param {*} res 
@@ -50,7 +54,12 @@ export const recupererCommentaireParId = (req, res) => {
     });
 };
 
-
+/**
+ * @summary retrive every comments for a picture
+ * @param {Object} req object represents the HTTP request and has properties for the request query string, parameters, body,headers 
+ * @param {String} req.params.id id_photo sent through the URL
+ * @param {Object} res object used to answer the query
+ */
 export const recupererCommentaireParIdPhoto = (req, res) => {
 
 
@@ -63,6 +72,7 @@ export const recupererCommentaireParIdPhoto = (req, res) => {
             return res.status(400).json(erreurs);
         } else {
 
+            console.log(rows);
             if (rows.length === 1) {
                 return res.json(rows[0]);
             } else {
@@ -84,15 +94,14 @@ export const recupererCommentaireParIdPhoto = (req, res) => {
 
 
 /**
- * @param on attend un texte_commentaire un id_user et un id_photo
- * @param {*} req 
- * @param {*} res 
+ * @param {Object} req object represents the HTTP request and has properties for the request query string, parameters, body,headers
+ * @param {Object} req.body expecting texte_commentaire, id_user, id_photo
+ * @param {Object} res object used to answer the query
  */
 export const ajouterCommentaire = (req, res) => {
 
 
     const obj = Object.keys(req.body)[0]
-
     const {
         erreurs,
         estValide
@@ -117,14 +126,14 @@ export const ajouterCommentaire = (req, res) => {
 
     commentaire["date_creation_commentaire"] = moment().format('YYYY/MM/D hh:mm:ss SSS')
 
-    //* ce if est vraiment bidon car si on passe des valeurs booléenes ça pete 
 
 
 
     connexion.query(AJOUTER_COMMENTAIRE, [commentaire.texte_commentaire, commentaire.date_creation_commentaire, commentaire.id_user, commentaire.id_photo], (err, rows, field) => {
 
         if (err) {
-            erreurs.sql = err
+            erreurs.sql = "ERREUR SQL" + err
+            logToTxt(erreurs, "ajout")
             console.log(err);
             return res.status(404).json(erreurs);
         }
@@ -138,10 +147,12 @@ export const ajouterCommentaire = (req, res) => {
 
 
 /**
- * @access
+ * @VERB DELETE
+ * @access protected 
  * @alias /api/commentaire/supprimer/:id([0-9]*)
- * @param {*} req 
- * @param {*} res 
+ * @param {Object} req 
+ * @param {String} req.params.id id_photo sent through the URL
+ * @param {Object} res 
  */
 export const supprimerCommentaireParID = (req, res) => {
 

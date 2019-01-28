@@ -4,6 +4,9 @@ import {
     RECUPERER_PHOTO_PAR_ID,
     SUPPRIMER_PHOTO_PAR_ID
 } from "./requetesSql";
+import {
+    logToTxt
+} from "../functions/functionSheet";
 
 export const signalerPhoto = (req, res) => {
 
@@ -59,8 +62,11 @@ export const supprimerPhotoParSignalement = (req, res) => {
             connexion.query(SUPPRIMER_PHOTO_PAR_ID, req.params.id, (err, rows, fields) => {
 
                 if (err) {
-                    erreurs.sql = err
-                    return res.status(400).json(erreurs);
+
+                    erreurs.sql = "ERREUR SQL" + err
+                    logToTxt(erreurs, "ajout")
+                    return res.status(404).json("Vous avez déjà déréféréncé Cette image.");
+
                 }
                 if (rows.affectedRows === 0) {
 

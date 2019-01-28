@@ -2,6 +2,7 @@ import express from "express"
 import bodyParser from 'body-parser'
 import morgan from 'morgan'
 import compression from 'compression'
+import fs from 'fs'
 
 
 import utilisateur from './routes/utilisateur';
@@ -17,6 +18,9 @@ import lieu from './routes/lieu';
 import notifie from './routes/notifie'
 import participer from './routes/participer';
 import signaler from './routes/signaler';
+import {
+    logToTxt
+} from "./functions/functionSheet";
 
 /**
  * !AJOUTER UNE METHODE DE LOG POUR LE SQL ET LES REQUETES HTTP
@@ -26,19 +30,33 @@ const app = express()
 
 app.use('/static', express.static('photos'));
 
-
+/**
+ * PERMET DE PARSER LE CONTENU DES REQUETE AU FORMAT JSON
+ */
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: false
 }));
+
+/*permet d'avoir un jornal d'informations sur le serveur complet dans la console*/
 app.use(morgan('dev'));
+
+//permet de compresser au format GZIP toutes les requetes
 app.use(compression());
 
+//permet de sortir un journal d'accés du serveur avec les ip, les routes et les status http
+app.use(morgan('common', {
+    stream: fs.createWriteStream('./logs/access.log', {
+        flags: 'a'
+    })
+}));
 
+
+/*middleware de raccourcie et de mise à disposition des route*/
 app.use('/api/utilisateur/', utilisateur);
 app.use('/api/evenement/', evenement);
 app.use("/api/photo/", photo);
-app.use("/api/aimer/", aime);
+app.use("/api/aime/", aime);
 app.use("/api/produit/", produit);
 app.use("/api/achete/", achete);
 app.use("/api/aime_idee", aime_idee);
@@ -50,11 +68,12 @@ app.use("/api/participer", participer);
 app.use("/api/signaler", signaler);
 
 
-
+/*permet d'intercepter toutes les requetes qui sont sur autre chose que les routes disponible*/
 app.all('*', (req, res, next) => {
 
     const erreurs = {}
 
+    logToTxt(req.path, "erreur URL")
     res.sendStatus(404)
 });
 

@@ -4,7 +4,8 @@ import {
     recupererUtilisateurParId,
     recupererUtilisateurParMail,
     ajouterUtilisateur,
-    connexionUtilisateur
+    connexionUtilisateur,
+    ajouterAvatar
 } from '../api/utilisateur';
 import {
     verificationEmetteur
@@ -16,7 +17,7 @@ router.route("/recuperer")
     .get(verificationEmetteur, recupererTousLesUtilisateur);
 
 router.route("/recuperer/:id([0-9]*)")
-    .get(verificationEmetteur, recupererUtilisateurParId)
+    .get(recupererUtilisateurParId)
 
 router.route("/recuperer/:mail([a-z0-9]*@[a-z0-9]*)")
     .get(verificationEmetteur, recupererUtilisateurParMail);
@@ -24,6 +25,7 @@ router.route("/recuperer/:mail([a-z0-9]*@[a-z0-9]*)")
 
 router.route("/ajouter")
     .post(verificationEmetteur, ajouterUtilisateur)
+    .put(verificationEmetteur, ajouterAvatar)
 
 router.route("/connexion")
     .post(connexionUtilisateur)

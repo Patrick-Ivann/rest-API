@@ -13,6 +13,15 @@ import moment from 'moment'
 import formidable from 'formidable';
 import connexion from '../functions/connexion';
 
+import archiver from 'archiver'
+import {
+    createWriteStream,
+    readdir
+} from 'fs'
+import {
+    logToTxt
+} from "../functions/functionSheet";
+
 
 export const recupererToutesLesPhotos = (req, res) => {
 
@@ -150,7 +159,7 @@ export const televerserPhoto = (req, res) => {
             fichier.name = `Photo_${file.name}`
             file.name = fichier.name
             file.path = path.join(__dirname, '../photos/') + file.name;
-            fichier.url_photo = file.path
+            fichier.url_photo = file.name
 
 
         })
@@ -203,6 +212,60 @@ export const ajouterPhoto = (formulaire, fichier) => {
 
 
 }
+
+
+
+export const telechargerToutesLesPhotos = (req, res) => {
+
+
+
+    let sortie = createWriteStream(__dirname + "/photosEvenement")
+    let archive = archiver('zip', {
+        zlib: {
+            level: 9
+        }
+    })
+
+
+    sortie.on('close', () => {
+        console.log(archiver.pointer())
+
+    })
+
+    archive.on('warning', function (err) {
+        if (err.code === 'ENOENT') {
+            logToTxt("le fichier n'existe pas", "fichiers")
+        } else {
+            logToTxt(err, "fichiers")
+            return res.status(404).json(err);
+        }
+    });
+
+    archive.on('error', function (err) {
+        logToTxt(err, "fichiers")
+        return res.status(404).json(err);
+    });
+
+
+    readdir(testFolder, (err, files) => {
+
+
+        files.forEach(file => {
+
+            console.log(file);
+            archive.file(file, {
+                name: file
+            });
+
+        });
+
+
+    })
+
+
+
+}
+
 
 
 /**

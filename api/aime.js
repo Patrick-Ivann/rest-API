@@ -5,6 +5,7 @@ import {
     RECUPERER_LES_UTILISATEURS_AIMANT,
     PUBLIER_UN_LIKE_SUR_PHOTO
 } from './requetesSql';
+import { logToTxt } from '../functions/functionSheet';
 
 /**
  * @access free
@@ -15,7 +16,18 @@ import {
 export const recupererTousLesJaimes = (req, res) => {
 
     connexion.query(RECUPERER_TOUS_LES_JAIMES, (err, rows, fields) => {
-        return res.json(rows);
+        if (err) {
+
+            erreurs.sql = "ERREUR SQL" + err
+            logToTxt(erreurs, "récupération")
+
+            return res.status(404).json("impossible de récupérer");
+        } else {
+
+
+            return res.json(rows);
+        }
+
     });
 };
 
@@ -28,7 +40,18 @@ export const recupererTousLesJaimes = (req, res) => {
 export const recupererPhotoAimee = (req, res) => {
 
     connexion.query(RECUPERER_LES_PHOTO_AIMEE, req.params.id, (err, rows, fields) => {
-        return res.json(rows);
+
+        if (err) {
+
+            erreurs.sql = "ERREUR SQL" + err
+            logToTxt(erreurs, "ajout")
+            return res.status(404).json("Impossible de récupérer.");
+        } else {
+
+            return res.json(rows);
+
+        }
+
     });
 };
 
@@ -41,7 +64,17 @@ export const recupererPhotoAimee = (req, res) => {
 export const recupererUtilisateurAimant = (req, res) => {
 
     connexion.query(RECUPERER_LES_UTILISATEURS_AIMANT, req.params.id, (err, rows, fields) => {
-        return res.json(rows);
+
+        if (err) {
+
+            erreurs.sql = "ERREUR SQL" + err
+            logToTxt(erreurs, "récupération")
+            return res.status(404).json("Impossible de récuperer");
+        } else {
+
+            return res.json(rows);
+        }
+
     });
 };
 
@@ -53,9 +86,37 @@ export const recupererUtilisateurAimant = (req, res) => {
  */
 export const publierUnLikeSurPhoto = (req, res) => {
 
-    var values = Object.values(req.body); //Transforme l'objet JSON en tableau pour l'envoyer en paramètres a la requête sql
+    const obj = Object.keys(req.body)[0]
 
-    connexion.query(PUBLIER_UN_LIKE_SUR_PHOTO, values, (err, rows, fields) => {
+
+    console.log("object");
+
+    let erreurs = {}
+
+    const aime = {}
+
+
+    for (var key in JSON.parse(obj)) {
+
+        if (JSON.parse(obj).hasOwnProperty(key)) {
+
+            aime[key] = JSON.parse(obj)[key]
+
+            console.log(aime);
+
+        }
+
+    }
+
+    connexion.query(PUBLIER_UN_LIKE_SUR_PHOTO, [aime.id_user, aime.id_photo], (err, rows, fields) => {
+
+        if (err) {
+
+            erreurs.sql = "ERREUR SQL" + err
+            logToTxt(erreurs, "ajout")
+            return res.status(404).json("Vous avez déjà liké");
+        }
+
         return res.json(rows);
     });
 };
