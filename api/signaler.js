@@ -8,6 +8,14 @@ import {
     logToTxt
 } from "../functions/functionSheet";
 
+/**
+ * @VERB POST
+ * @alias /api/signaler/ajouter
+ * @access protected
+ * @description post a photo for later deletion
+ * @param {Object} req 
+ * @param {Object} res 
+ */
 export const signalerPhoto = (req, res) => {
 
     const obj = Object.keys(req.body)[0]
@@ -40,6 +48,14 @@ export const signalerPhoto = (req, res) => {
 };
 
 
+/**
+ * @VERB DELETE
+ * @description delete a pics that has been reported
+ * @alias /api/signaler/supprimer
+ * @access protected
+ * @param {Object} req 
+ * @param {Object} res 
+ */
 export const supprimerPhotoParSignalement = (req, res) => {
 
 

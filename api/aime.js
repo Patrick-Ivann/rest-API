@@ -8,10 +8,12 @@ import {
 import { logToTxt } from '../functions/functionSheet';
 
 /**
- * @access free
- * @alias /api/aime/recuperer
- * @param {*} req 
- * @param {*} res 
+ * @VERB GET 
+ * @description recover all the likes
+ * @access public
+ * @alias /api/aime/recuperer/
+ * @param {Object} req 
+ * @param {Object} res 
  */
 export const recupererTousLesJaimes = (req, res) => {
 
@@ -32,10 +34,12 @@ export const recupererTousLesJaimes = (req, res) => {
 };
 
 /**
- * @access free
+ * @VERB GET 
+ * @description recover liked pics
+ * @access public
  * @alias /api/aime/recuperer/:id([0-9]*)
- * @param {*} req 
- * @param {*} res 
+ * @param {Object} req 
+ * @param {Object} res 
  */
 export const recupererPhotoAimee = (req, res) => {
 
@@ -56,10 +60,12 @@ export const recupererPhotoAimee = (req, res) => {
 };
 
 /**
- * @access via token
+ * @VERB GET
+ * @description recover all the users who liked
+ * @access public
  * @alias /api/aime/recuperer/:id([0-9]*)
- * @param {*} req 
- * @param {*} res 
+ * @param {Object} req 
+ * @param {Object} res 
  */
 export const recupererUtilisateurAimant = (req, res) => {
 
@@ -79,10 +85,12 @@ export const recupererUtilisateurAimant = (req, res) => {
 };
 
 /**
- * @access via token
+ * @VERB POST
+ * @description to like a pics
+ * @access protected
  * @alias /api/aime/ajouter
- * @param {*} req 
- * @param {*} res 
+ * @param {Object} req 
+ * @param {Object} res 
  */
 export const publierUnLikeSurPhoto = (req, res) => {
 

@@ -23,6 +23,15 @@ import {
 } from "../functions/functionSheet";
 
 
+
+/**
+ * @VERB GET
+ * @description recover all the pics
+ * @access public
+ * @alias /api/photo/recuperer
+ * @param {Object} req 
+ * @param {Object} res 
+ */
 export const recupererToutesLesPhotos = (req, res) => {
 
     const erreurs = {}
@@ -47,6 +56,14 @@ export const recupererToutesLesPhotos = (req, res) => {
 
 }
 
+/**
+ * @VERB GET
+ * @access public
+ * @description recover pics by ID
+ * @alias /api/photo/recuperer/:id([0-9]*)
+ * @param {Object} req 
+ * @param {Object} res 
+ */
 export const recupererPhotoParId = (req, res) => {
 
     const erreurs = {}
@@ -66,9 +83,12 @@ export const recupererPhotoParId = (req, res) => {
 }
 
 /**
+ * @VERB GET
+ * @description recover pics by ID events
+ * @access public
  * @alias /recuperer/evenement/:id
- * @param {*} req 
- * @param {*} res 
+ * @param {Object} req 
+ * @param {Object} res 
  */
 export const recupererPhotoParIdEvenement = (req, res) => {
 
@@ -97,7 +117,14 @@ export const recupererPhotoParIdEvenement = (req, res) => {
 
 
 
-
+/**
+ * @VERB POST
+ * @description add a new pics 
+ * @access protected
+ * @alias /api/photo/ajouter
+ * @param {Object} req 
+ * @param {Object} res 
+ */
 export const televerserPhoto = (req, res) => {
 
 
@@ -180,7 +207,12 @@ export const televerserPhoto = (req, res) => {
 };
 
 
-
+/**
+ * @description add a pics for upload pics
+ * @access private
+ * @param {Object} formulaire 
+ * @param {Object} fichier 
+ */
 export const ajouterPhoto = (formulaire, fichier) => {
 
     console.log(formulaire)
@@ -214,7 +246,14 @@ export const ajouterPhoto = (formulaire, fichier) => {
 }
 
 
-
+/**
+ * 
+ * @VERB
+ * @alias
+ * @access
+ * @param {Object} req 
+ * @param {Object} res 
+ */
 export const telechargerToutesLesPhotos = (req, res) => {
 
 

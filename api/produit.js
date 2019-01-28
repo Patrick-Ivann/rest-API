@@ -20,7 +20,14 @@ import {
 } from "../functions/functionSheet";
 
 
-
+/**
+ * @VERB GET
+ * @description recover all the products
+ * @access public
+ * @alias /api/produit/recuperer
+ * @param {Object} req 
+ * @param {Object} res 
+ */
 export const recupererTousLesProduits = (req, res) => {
 
     const erreur = {}
@@ -54,6 +61,15 @@ export const recupererTousLesProduits = (req, res) => {
 
 }
 
+
+/**
+ * @VERB GET
+ * @description recover products by ID
+ * @alias /api/produit/recuperer/:id([0-9]*)
+ * @access public
+ * @param {Object} req 
+ * @param {Object} res 
+ */
 export const recupererProduitParId = (req, res) => {
 
     const erreur = {}
@@ -89,7 +105,14 @@ export const recupererProduitParId = (req, res) => {
 
 }
 
-
+/**
+ * @VERB POST
+ * @description add a products in the shop
+ * @access protected
+ * @alias /api/produit/ajouter
+ * @param {Object} req 
+ * @param {Object} res 
+ */
 export const televerserProduit = (req, res) => {
 
 
@@ -188,7 +211,14 @@ export const televerserProduit = (req, res) => {
 
 };
 
-
+/**
+ * @VERB 
+ * @access
+ * @alias
+ * @description
+ * @param {Object} formulaire 
+ * @param {Object} fichier 
+ */
 export const ajouterProduit = (formulaire, fichier) => {
 
 
@@ -209,7 +239,14 @@ export const ajouterProduit = (formulaire, fichier) => {
 
 }
 
-
+/**
+ * @VERB DELETE
+ * @description delete products by ID
+ * @alias /api/produit/supprimer
+ * @access protected
+ * @param {Object} req 
+ * @param {Object} res 
+ */
 export const supprimerProduitParId = (req, res) => {
 
     let erreurs = {}

@@ -8,10 +8,12 @@ import {
 
 
 /**
- * @access free
+ * @VERB GET
+ * @description recover all the notifications
+ * @access public
  * @alias /api/notifie/recuperer
- * @param {*} req 
- * @param {*} res 
+ * @param {Object} req 
+ * @param {Object} res 
  */
 export const recupererToutesLesNotifS = (req, res) => {
 
@@ -21,10 +23,12 @@ export const recupererToutesLesNotifS = (req, res) => {
 };
 
 /**
- * @access free
+ * @VERB GET
+ * @description retrieve a notification when the proposed idea is passed to an event 
+ * @access public
  * @alias /api/notifie/recuperer/idee/:id([0-9]*)
- * @param {*} req 
- * @param {*} res 
+ * @param {Object} req 
+ * @param {Object} res 
  */
 export const recupererIdeeNotif = (req, res) => {
 
@@ -35,10 +39,12 @@ export const recupererIdeeNotif = (req, res) => {
 
 
 /**
- * @access
+ * @VERB GET
+ * @description recover the user notif
+ * @access public
  * @alias /api/notifie/recuperer/utilisateur/:id([0-9]*)
- * @param {*} req 
- * @param {*} res 
+ * @param {Object} req 
+ * @param {Object} res 
  */
 export const recupererUtilisateurNotif = (req, res) => {
 
@@ -48,10 +54,12 @@ export const recupererUtilisateurNotif = (req, res) => {
 };
 
 /**
- * @access
+ * @VERB POST
+ * @description notify a user
  * @alias /api/notifie/ajouter
- * @param {*} req 
- * @param {*} res 
+ * @access protected
+ * @param {Object} req 
+ * @param {Object} res 
  */
 export const publierUnUtilisateurANotifie = (req, res) => {
 
