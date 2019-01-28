@@ -13,7 +13,7 @@ export const valideConnexionInput = (data) => {
 
 
     if (data.adresse_mail == !typeof String || !Validator.isEmail(data.adresse_mail)) {
-        erreurs.typeAdresse_mail = "Le nom de l'evenement doit être une chaîne de caractère."
+        erreurs.typeAdresse_mail = "L'adresse mail n'est pas du bon type doit être une chaîne de caractère."
     }
 
 

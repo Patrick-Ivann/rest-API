@@ -117,6 +117,7 @@ export const publierUnAchat = (req, res) => {
 
             erreurs.sql = "ERREUR SQL" + err
             logToTxt(erreurs, "ajout")
+            console.log(erreurs)
             return res.status(404).json("Vous avez déjà acheté Ce produit.");
         } else {
 
@@ -126,6 +127,7 @@ export const publierUnAchat = (req, res) => {
                 if (err) {
 
                     erreurs.sql = "ERREUR SQL" + err
+                    console.log(erreurs)
                     logToTxt(erreurs, "récupération")
                     return res.status(404).json("Vous avez déjà acheté Ce produit.");
                 } else {

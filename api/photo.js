@@ -16,8 +16,16 @@ import connexion from '../functions/connexion';
 import archiver from 'archiver'
 import {
     createWriteStream,
-    readdir
+    readdir,
+    createReadStream,
+    readFileSync,
+    readFile,
+    stat,
+    readdirSync
 } from 'fs'
+
+
+import path from 'path';
 import {
     logToTxt
 } from "../functions/functionSheet";
@@ -218,49 +226,149 @@ export const ajouterPhoto = (formulaire, fichier) => {
 export const telechargerToutesLesPhotos = (req, res) => {
 
 
+    let dirIn = path.join(__dirname, "..", "/photos - Copie")
+    let dirIn2 = path.join(__dirname, "..", "/photos")
+    let dirOut = path.join(__dirname, ".." + "/photos/photoBDE.zip")
 
-    let sortie = createWriteStream(__dirname + "/photosEvenement")
-    let archive = archiver('zip', {
-        zlib: {
-            level: 9
-        }
-    })
+    var archive = archiver('zip')
+
+    let sortie = createWriteStream(dirOut)
+    /*    let archive = archiver('zip', {
+            zlib: {
+                level: 9
+            }
+        })
+        */
 
 
-    sortie.on('close', () => {
-        console.log(archiver.pointer())
-
-    })
+    archive.pipe(sortie);
 
     archive.on('warning', function (err) {
         if (err.code === 'ENOENT') {
             logToTxt("le fichier n'existe pas", "fichiers")
         } else {
+            console.log(err)
             logToTxt(err, "fichiers")
             return res.status(404).json(err);
         }
     });
 
     archive.on('error', function (err) {
+        console.log(err)
         logToTxt(err, "fichiers")
         return res.status(404).json(err);
     });
 
+    sortie.on('close', function () {
+        console.log(archive.pointer() + ' total bytes');
+        console.log('archiver has been finalized and the output file descriptor has closed.');
+        res.download(dirOut)
 
-    readdir(testFolder, (err, files) => {
+    });
 
 
-        files.forEach(file => {
+    var filesz = {}
+    var filesC = []
 
-            console.log(file);
-            archive.file(file, {
-                name: file
+
+    var file1 = __dirname + '/photos/Produit_clementine.png';
+
+    var file2 = __dirname + '/photos';
+
+
+
+    /*readdir(dirIn2, (err, files) => {
+
+        if (err) {
+            console.log(err);
+
+        }
+
+
+        filesz = files
+
+        filesC = files
+        //console.log(files)
+
+        /*for (var i = 0; i < filesC.length; i++) {
+            var pathr = dirIn + '/' + filesC[i];
+            console.log(pathr)
+            archive.append(readFileSync(pathr), {
+                name: filesC[i]
             });
+        }
 
+        files.forEach(element => {
+
+            stat(element, callback(element));
         });
 
 
-    })
+
+        //console.log(files);
+
+    });*/
+
+    /*archive.file(__dirname + "/" + 'photo.js', {
+        name: 'file4.js'
+    });*/
+
+    var arr = []
+
+    var files = readdirSync(dirIn2);
+
+    files.forEach(file => {
+
+        if (file.split("_")[0] === "Photo") {
+
+
+            arr.push(file);
+
+            archive.append(__dirname + "/" + file, {
+                name: file
+            })
+
+        }
+    });
+
+    console.log(arr);
+
+
+
+
+    archive.finalize(function (err, bytes) {
+        if (err) {
+
+            console.log(err);
+
+        }
+
+        console.log(bytes + ' total bytes');
+    });
+
+    //console.log(files)
+
+
+    /*files.forEach(file => {
+        archive.file(file, {
+            name: file
+        });
+        
+    });
+    */
+
+
+
+
+
+
+
+    //console.log(filesC)
+
+
+
+
+
 
 
 

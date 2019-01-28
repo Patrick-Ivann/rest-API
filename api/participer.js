@@ -92,7 +92,7 @@ export const recupererEvenementParticipe = (req, res) => {
 
 
             if (rows.length === 1) {
-                return res.json(rows[0]);
+                return res.json(rows);
             } else {
                 /*
                 [RowDataPacket {
@@ -149,6 +149,7 @@ export const ajouterParticiper = (req, res) => {
 
         if (err) {
             erreurs.sql = "ERREUR SQL" + err
+            console.log(erreurs)
             logToTxt(erreurs, "ajout")
             return res.status(400).json(erreurs);
         }

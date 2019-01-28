@@ -214,37 +214,30 @@ export const supprimerProduitParId = (req, res) => {
 
     let erreurs = {}
 
-    connexion.query(RECUPERER_PRODUIT_PAR_ID, req.params.id, (err, rows, fields) => {
+
+
+
+    connexion.query(SUPPRIMER_PRODUIT_PAR_ID, req.params.id, (err, rows, fields) => {
 
         if (err) {
             erreurs.sql = "ERREUR SQL " + err
-            logToTxt(erreurs)
+            logToTxt(erreurs, "suppression")
             return res.status(400).json(erreurs);
         }
+        if (rows.affectedRows === 0) {
 
-        if (rows) {
-
-
-            connexion.query(SUPPRIMER_PRODUIT_PAR_ID, req.params.id, (err, rows, fields) => {
-
-                if (err) {
-                    erreurs.sql = "ERREUR SQL " + err
-                    logToTxt(erreurs, "suppression")
-                    return res.status(400).json(erreurs);
-                }
-                if (rows.affectedRows === 0) {
-
-                    erreurs.sql = "L'evenement est déja supprimé"
-                    logToTxt(erreurs, "suppression")
-                    return res.status(403).json(erreurs);
-                }
-
-                return res.json(rows)
-            })
+            erreurs.sql = "L'evenement est déja supprimé"
+            console.log(erreurs)
+            logToTxt(erreurs, "suppression")
+            return res.status(403).json(erreurs);
         }
 
+        return res.json(rows)
     })
 
 
-    return res.status(404).json(erreur);
+
+
+
+
 }

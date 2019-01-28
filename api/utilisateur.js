@@ -262,7 +262,7 @@ export const connexionUtilisateur = (req, res) => {
      */
     const obj = Object.keys(req.body)[0]
 
-
+    console.log(obj);
 
 
     const {
@@ -275,7 +275,7 @@ export const connexionUtilisateur = (req, res) => {
     if (!estValide) { // si valide retourne faut ou n'est pas déclaré alors on arrete tout
 
 
-
+        console.log(erreurs);
         return res.status(400).json(erreurs);
 
     } else {
@@ -320,12 +320,6 @@ export const connexionUtilisateur = (req, res) => {
 
 
         })
-
-
-
-
-
-
 
 
     };

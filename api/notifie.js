@@ -5,6 +5,9 @@ import {
     RECUPERER_UTILISATEUR_NOTIF,
     PUBLIER_UN_UTILISATEUR_A_NOTIFIE
 } from './requetesSql';
+import {
+    logToTxt
+} from '../functions/functionSheet';
 
 
 /**
@@ -55,9 +58,33 @@ export const recupererUtilisateurNotif = (req, res) => {
  */
 export const publierUnUtilisateurANotifie = (req, res) => {
 
-    var values = Object.values(req.body);
+    const obj = Object.keys(req.body)[0]
 
-    connexion.query(PUBLIER_UN_UTILISATEUR_A_NOTIFIE, values, (err, rows, fields) => {
+
+
+    const notifie = {}
+
+    const erreurs = {}
+    for (var key in JSON.parse(obj)) {
+
+        if (JSON.parse(obj).hasOwnProperty(key)) {
+            notifie[key] = JSON.parse(obj)[key]
+        }
+    }
+
+
+
+
+
+    connexion.query(PUBLIER_UN_UTILISATEUR_A_NOTIFIE, [notifie.id_event_idee, notifie.id_user], (err, rows, fields) => {
+
+        if (err) {
+            console.log(err);
+            erreurs.sql = err
+            logToTxt(erreurs, "ajout")
+        }
+
+
         return res.json(rows);
     });
 };

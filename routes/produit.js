@@ -24,8 +24,8 @@ router.route("/ajouter")
     .post(verificationEmetteur, televerserProduit)
 
 
-router.route("/supprimer")
-    .post(verificationEmetteur, supprimerProduitParId)
+router.route("/supprimer/:id([0-9]*)")
+    .delete(supprimerProduitParId)
 
 
 export default router

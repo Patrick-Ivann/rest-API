@@ -4,7 +4,8 @@ import {
     recupererPhotoParId,
     ajouterPhoto,
     televerserPhoto,
-    recupererPhotoParIdEvenement
+    recupererPhotoParIdEvenement,
+    telechargerToutesLesPhotos
 } from '../api/photo';
 import {
     verificationEmetteur
@@ -24,6 +25,9 @@ router.route("/recuperer/evenement/:id([0-9]*)")
 
 router.route("/ajouter")
     .post(verificationEmetteur, televerserPhoto)
+
+router.route("/telecharger")
+    .get(telechargerToutesLesPhotos)
 
 
 
