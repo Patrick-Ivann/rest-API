@@ -78,6 +78,7 @@ export const RECUPERER_UTILISATEUR_NOTIF = "SELECT * FROM notifie WHERE id_user 
 
 
 export const RECUPERER_TOUS_LES_ACHATS = "SELECT * FROM achete";
+export const RECUPERER_PLUS_ACHETES = "SELECT achete.id_produit, produit.nom_produit, produit.prix_produit, produit.url_image_produit FROM ACHETE INNER JOIN produit on produit.id_produit = achete.id_produit GROUP BY id_produit  ORDER BY COUNT(achete.id_produit) DESC LIMIT 3 "
 export const RECUPERER_ACHETEUR = "SELECT * FROM achete WHERE id_user = ?";
 export const RECUPERER_PRODUIT = "SELECT * FROM achete WHERE id_produit = ?";
 export const RECUPERER_ACHAT_PAR_ID_UTILISATEUR = "SELECT id_produit FROM achete WHERE id_user = ?"

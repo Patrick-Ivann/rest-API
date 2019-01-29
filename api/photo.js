@@ -1,34 +1,28 @@
-import {
-    AJOUTER_PHOTO,
-    RECUPERER_EVENEMENT_PAR_LIEU,
-    RECUPERER_TOUTES_LES_PHOTOS,
-    RECUPERER_PHOTO_PAR_ID,
-    RECUPERER_PHOTO_PAR_ID_EVENEMENT
-} from "./requetesSql";
-import {
-    validePhotoInput
-} from '../validation/validationInput';
-
-import moment from 'moment'
+import archiver from 'archiver';
 import formidable from 'formidable';
-import connexion from '../functions/connexion';
-
-import archiver from 'archiver'
 import {
     createWriteStream,
-    readdir,
-    createReadStream,
-    readFileSync,
-    readFile,
-    stat,
     readdirSync
-} from 'fs'
-
-
+} from 'fs';
+import moment from 'moment';
 import path from 'path';
+import connexion from '../functions/connexion';
 import {
     logToTxt
 } from "../functions/functionSheet";
+import {
+    validePhotoInput
+} from '../validation/validationInput';
+import {
+    AJOUTER_PHOTO,
+    RECUPERER_PHOTO_PAR_ID,
+    RECUPERER_PHOTO_PAR_ID_EVENEMENT,
+    RECUPERER_TOUTES_LES_PHOTOS
+} from "./requetesSql";
+
+
+
+
 
 
 
@@ -314,43 +308,6 @@ export const telechargerToutesLesPhotos = (req, res) => {
 
     var file2 = __dirname + '/photos';
 
-
-
-    /*readdir(dirIn2, (err, files) => {
-
-        if (err) {
-            console.log(err);
-
-        }
-
-
-        filesz = files
-
-        filesC = files
-        //console.log(files)
-
-        /*for (var i = 0; i < filesC.length; i++) {
-            var pathr = dirIn + '/' + filesC[i];
-            console.log(pathr)
-            archive.append(readFileSync(pathr), {
-                name: filesC[i]
-            });
-        }
-
-        files.forEach(element => {
-
-            stat(element, callback(element));
-        });
-
-
-
-        //console.log(files);
-
-    });*/
-
-    /*archive.file(__dirname + "/" + 'photo.js', {
-        name: 'file4.js'
-    });*/
 
     var arr = []
 

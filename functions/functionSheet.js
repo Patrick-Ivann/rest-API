@@ -16,7 +16,7 @@ export const logToTxt = (texte, nomFichier) => {
 
 
 
-    log_file.write(util.format(texte) +
+    log_file.write(util.format(texte) + " " +
         moment().format('LTS') + " " + // hh:min:ss 
         moment().format('L') + '\n'); // dd/mm/yyyy
 

@@ -5,7 +5,8 @@ import {
     RECUPERER_PRODUIT,
     PUBLIER_UN_ACHAT,
     RECUPERER_ACHAT_PAR_ID_UTILISATEUR,
-    RECUPERER_PRODUIT_PAR_ID
+    RECUPERER_PRODUIT_PAR_ID,
+    RECUPERER_PLUS_ACHETES
 } from './requetesSql';
 import {
     logToTxt
@@ -21,7 +22,7 @@ import {
  * @param {Object} req 
  * @param {Object} res 
  */
-export const recupererAchats = (req, res) => { 
+export const recupererAchats = (req, res) => {
 
     connexion.query(RECUPERER_TOUS_LES_ACHATS, (err, rows, fields) => {
 
@@ -37,6 +38,27 @@ export const recupererAchats = (req, res) => {
         return res.json(rows);
     });
 };
+
+export const recupererProduitPlusAchete = (req, res) => {
+
+    let erreurs = {}
+    connexion.query(RECUPERER_PLUS_ACHETES, (err, rows, fields) => {
+
+        if (err) {
+
+            erreurs.sql = "une erreur coté SQL vient d'arriver" + err
+            console.log(erreurs);
+            return res.status(404).json(erreurs);
+        }
+
+        console.log(rows);
+        return res.json(rows);
+    });
+
+
+};
+
+
 
 
 /**
@@ -118,7 +140,7 @@ export const publierUnAchat = (req, res) => {
         }
 
     }
-    
+
 
     connexion.query(PUBLIER_UN_ACHAT, [achat.id_user, achat.id_produit], (err, rows, fields) => {
 

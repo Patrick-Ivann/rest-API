@@ -3,7 +3,8 @@ import {
     publierUnAchat,
     recupererAchats,
     recupererAcheteur,
-    recupererProduit
+    recupererProduit,
+    recupererProduitPlusAchete
 } from "../api/achete";
 import {
     verificationEmetteur
@@ -19,6 +20,9 @@ router.route("/recuperer/utilisateur/:id([0-9]*)")
 
 router.route("/recuperer/produit/:id([0-9]*)")
     .get(recupererProduit);
+
+router.route("/recuperer/produit/top")
+    .get(recupererProduitPlusAchete)
 
 router.route("/ajouter/")
     .post(verificationEmetteur, publierUnAchat);

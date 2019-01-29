@@ -18,6 +18,10 @@ import {
  */
 export const signalerPhoto = (req, res) => {
 
+
+
+    let erreurs = {}
+
     const obj = Object.keys(req.body)[0]
 
     const signalement = {}
