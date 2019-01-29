@@ -12,10 +12,12 @@ import {
 } from '../functions/functionSheet';
 
 /**
- * @access via token
+ * @VERB GET
+ * @description recover all the participants
+ * @access public
  * @alias /api/participer/recuperer
- * @param {*} req 
- * @param {*} res 
+ * @param {Object} req 
+ * @param {Object} res 
  */
 export const recupererToutesParticipation = (req, res) => {
     var erreurs = {}
@@ -39,10 +41,12 @@ export const recupererToutesParticipation = (req, res) => {
 };
 
 /**
- * @access via token
+ * @VERB GET
+ * @description recover all the participations of a user
+ * @access public
  * @alias /api/participer/recuperer/utilisateur/:id([0-9]*)
- * @param {*} req 
- * @param {*} res 
+ * @param {Object} req 
+ * @param {Object} res 
  */
 export const recupererUilisateurParticipant = (req, res) => {
 
@@ -71,11 +75,13 @@ export const recupererUilisateurParticipant = (req, res) => {
 };
 
 /**
+ * @VERB GET
+ * @description recover the events who an user participate
  * @access protected 
  * @alias /api/participer/recuperer/event/:id([0-9]*)
  * @param {Object} req object represents the HTTP request and has properties for the request query string, parameters, body,headers
  * @param {number} req.params.id id of an event 
- * @param {*} res object used to answer the query
+ * @param {Object} res object used to answer the query
  * @returns {Object[] | Object} rows - an array of object or an object id_user,prenom,nom,adresse_mail  
  */
 export const recupererEvenementParticipe = (req, res) => {
@@ -114,6 +120,14 @@ export const recupererEvenementParticipe = (req, res) => {
 };
 
 
+/**
+ * @VERB POST
+ * @description add a participation
+ * @access public
+ * @alias /api/participer/ajouter
+ * @param {Object} req 
+ * @param {Object} res 
+ */
 export const ajouterParticiper = (req, res) => {
 
 

@@ -13,10 +13,12 @@ import {
 } from './requetesSql';
 
 /**
- * @access free
+ * @VERB GET
+ * @description recover all the ideas
+ * @access public
  * @alias /api/idee/recuperer
- * @param {*} req 
- * @param {*} res 
+ * @param {Object} req 
+ * @param {Object} res 
  */
 export const recupererToutesLesIdee = (req, res) => {
 
@@ -26,10 +28,12 @@ export const recupererToutesLesIdee = (req, res) => {
 };
 
 /**
- * @access free
+ * @VERB GET
+ * @description recover an idea by ID 
+ * @access public
  * @alias /api/idee/recuperer/:id([0-9]*)
- * @param {*} req 
- * @param {*} res 
+ * @param {Object} req 
+ * @param {Object} res 
  */
 export const recupererIdeeParId = (req, res) => {
 
@@ -40,10 +44,12 @@ export const recupererIdeeParId = (req, res) => {
 
 
 /**
- * @access via token
+ * @VERB POST
+ * @description add an idea
+ * @access public
  * @alias /api/idee/rajouter
- * @param {*} req 
- * @param {*} res 
+ * @param {Object} req 
+ * @param {Object} res 
  */
 export const ajouterIdee = (req, res) => {
 

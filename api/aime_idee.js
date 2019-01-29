@@ -10,6 +10,14 @@ import {
 } from "../functions/functionSheet";
 
 
+/**
+ * @VERB GET
+ * @description used to recover all the events liked
+ * @access public
+ * @alias /api/aime_idee/recuperer
+ * @param {Object} req object represents the HTTP request and has properties for the request query string, parameters, body,headers
+ * @param {Object} res object used to answer the query
+ */
 export const recupererTousLesEvenementsAimee = (req, res) => {
 
     let erreurs = {}
@@ -27,6 +35,14 @@ export const recupererTousLesEvenementsAimee = (req, res) => {
     });
 };
 
+/**
+ * @VERB GET
+ * @description used to recover all the events liked
+ * @access public
+ * @alias /api/aime_idee/recuperer/utilisateur/:id([0-9]*)
+ * @param {Object} req object represents the HTTP request and has properties for the request query string, parameters, body,headers
+ * @param {Object} res object used to answer the query
+ */
 export const recupererUtilisateurAimeIdeeEvent = (req, res) => {
 
     let erreurs = {}
@@ -42,6 +58,15 @@ export const recupererUtilisateurAimeIdeeEvent = (req, res) => {
     });
 };
 
+
+/**
+ * @VERB GET
+ * @description recover the likes of an idea passed in an event
+ * @access public
+ * @alias /api/aime_idee/recuperer/event/:id([0-9]*)
+ * @param {Object} req 
+ * @param {Object} res 
+ */
 export const recupererEvenementIdeeAime = (req, res) => {
 
 
@@ -59,6 +84,15 @@ export const recupererEvenementIdeeAime = (req, res) => {
     });
 };
 
+
+/**
+ * @VERB GET
+ * @description like an event idea
+ * @access protected
+ * @alias /api/aime_idee/ajouter/
+ * @param {Object} req 
+ * @param {Object} res 
+ */
 export const publierUnLikeSurEvenementIdee = (req, res) => {
 
     const obj = Object.keys(req.body)[0]

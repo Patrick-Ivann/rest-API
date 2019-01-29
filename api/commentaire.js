@@ -17,10 +17,11 @@ import {
 
 /**
  * @VERB GET
- * @access protected 
- * @alias /api/commentaire/recuperer
- * @param {*} req 
- * @param {*} res 
+ * @description recover all the comments
+ * @access public 
+ * @alias /api/commentaire/recuperer/
+ * @param {Object} req 
+ * @param {Object} res 
  */
 export const recupererTousLesCommentaire = (req, res) => {
 
@@ -36,10 +37,13 @@ export const recupererTousLesCommentaire = (req, res) => {
 };
 
 /**
- * @access
+ * @VERB GET
+ * @description recover all the comments by ID
+ * @access public
  * @alias /api/commentaire/recuperer/:id([0-9]*)
- * @param {*} req 
- * @param {*} res 
+ * @param {String} req.params.id id_photo sent through the URL
+ * @param {*} req object represents the HTTP request and has properties for the request query string, parameters, body,headers 
+ * @param {*} res object used to answer the query
  */
 export const recupererCommentaireParId = (req, res) => {
 
@@ -55,7 +59,10 @@ export const recupererCommentaireParId = (req, res) => {
 };
 
 /**
- * @summary retrive every comments for a picture
+ * @VERB GET
+ * @description retrive every comments for a picture
+ * @alias /api/commentaire/recuperer/photo/:id([0-9]*)
+ * @access public
  * @param {Object} req object represents the HTTP request and has properties for the request query string, parameters, body,headers 
  * @param {String} req.params.id id_photo sent through the URL
  * @param {Object} res object used to answer the query
@@ -94,6 +101,10 @@ export const recupererCommentaireParIdPhoto = (req, res) => {
 
 
 /**
+ * @VERB POST 
+ * @description to add a comment
+ * @alias /api/commentaire/ajouter
+ * @access public
  * @param {Object} req object represents the HTTP request and has properties for the request query string, parameters, body,headers
  * @param {Object} req.body expecting texte_commentaire, id_user, id_photo
  * @param {Object} res object used to answer the query
@@ -148,6 +159,7 @@ export const ajouterCommentaire = (req, res) => {
 
 /**
  * @VERB DELETE
+ * @description delete a comment by ID
  * @access protected 
  * @alias /api/commentaire/supprimer/:id([0-9]*)
  * @param {Object} req 

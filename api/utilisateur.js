@@ -27,10 +27,12 @@ import {
 
 
 /**
- * used to retrieve every user stored in the Database
+ * @VERB GET
+ * @access protected
+ * @description used to retrieve every user stored in the Database
  * @alias /api/utilisateur/recuperer
- * @param {*} req object represents the HTTP request and has properties for the request query string, parameters, body,headers
- * @param {*} res object used to answer the query
+ * @param {Object} req object represents the HTTP request and has properties for the request query string, parameters, body,headers
+ * @param {Object} res object used to answer the query
  */
 export const recupererTousLesUtilisateur = (req, res) => {
 
@@ -65,10 +67,12 @@ export const recupererTousLesUtilisateur = (req, res) => {
 }
 
 /**
+ * @VERB GET
+ * @access public
  * @description used to retrieve one user by his id
  * @alias /recuperer/utilisateur/:id([0-9]*)
- * @param {*} req object represents the HTTP request and has properties for the request query string, parameters, body,headers
- * @param {*} res object used to answer the query
+ * @param {Object} req object represents the HTTP request and has properties for the request query string, parameters, body,headers
+ * @param {Object} res object used to answer the query
  */
 export const recupererUtilisateurParId = (req, res) => {
 
@@ -96,7 +100,8 @@ export const recupererUtilisateurParId = (req, res) => {
 
 
 /**
- * VERB GET
+ * @VERB GET
+ * @access protected
  * @description used to retrieve user by their mail
  * @alias /recuperer/utilisateur/:mail([a-z0-9]*@[a-z0-9]*)
  * @param {Object} req object represents the HTTP request and has properties for the request query string, parameters, body,headers
@@ -132,9 +137,10 @@ export const recupererUtilisateurParMail = (req, res) => {
 }
 
 /**
- * VERB PUT
+ * @VERB PUT
  * @description used to add a picture to their profile
  * @alias /api/utilisateur/ajouter
+ * @access protected
  * @fires ajouterAvatarBdd
  * @param {Object} req object represents the HTTP request and has properties for the request query string, parameters, body,headers
  * @param {Object} req holding the multipart form 
@@ -223,7 +229,6 @@ export const ajouterAvatar = (req, res) => {
 
 /**
  * @description referencing the 
- * 
  * @param {Object} formulaire 
  * @param {Object} fichier 
  */
@@ -254,7 +259,14 @@ export const ajouterAvatarBdd = (formulaire, fichier) => {
 
 
 
-
+/**
+ * @VERB POST
+ * @alias /api/utilisateur/connexion
+ * @access protected
+ * @description connection
+ * @param {Object} req 
+ * @param {Object} res 
+ */
 export const connexionUtilisateur = (req, res) => {
 
     /**

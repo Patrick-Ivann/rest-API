@@ -5,10 +5,12 @@ import {
 } from "./requetesSql";
 
 /**
- * @access
+ * @VERB GET
+ * @description recover all the places
+ * @access public
  * @alias /api/lieu/recuperer
- * @param {*} req 
- * @param {*} res 
+ * @param {Object} req 
+ * @param {Object} res 
  */
 export const recupererTousLesLieux = (req, res) => {
 
@@ -18,10 +20,12 @@ export const recupererTousLesLieux = (req, res) => {
 };
 
 /**
- * @access
+ * @VERB GET
+ * @description recover a place by an ID
+ * @access public
  * @alias /api/lieu/recuperer/:id([0-9]9)
- * @param {*} req 
- * @param {*} res 
+ * @param {Object} req 
+ * @param {Object} res 
  */
 export const recupererLieuParId = (req, res) => {
 

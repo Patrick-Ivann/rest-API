@@ -24,10 +24,12 @@ import {
 
 
 /**
- * @access free
+ * @VERB GET
+ * @description recover all the events
+ * @access public
  * @alias /api/evenement/recuperer
- * @param {*} req 
- * @param {*} res 
+ * @param {Object} req 
+ * @param {Object} res 
  */
 export const recupererTousLesEvenements = (req, res) => {
 
@@ -62,10 +64,12 @@ export const recupererTousLesEvenements = (req, res) => {
 
 
 /**
- * @access
+ * @VERB GET
+ * @description recover an event by ID
+ * @access public
  * @alias /api/evenement/recuperer/:id([0-9]*)
- * @param {*} req 
- * @param {*} res 
+ * @param {Object} req 
+ * @param {Object} res 
  */
 export const recupererEvenementParId = (req, res) => {
 
@@ -104,11 +108,13 @@ export const recupererEvenementParId = (req, res) => {
 
 
 /**
+ * @VERB POST
+ * @description add an event
  * todo il manque la fonction de vérification des input évenement
- * @access via token
+ * @access protected
  * @alias /api/evenement/ajouter
- * @param {*} req 
- * @param {*} res 
+ * @param {Object} req 
+ * @param {Object} res 
  */
 export const ajouterEvenement = (req, res) => {
 
@@ -165,10 +171,12 @@ export const ajouterEvenement = (req, res) => {
 }
 
 /**
- * @access via token
+ * @VERB DELETE
+ * @description delete an event
+ * @access protected
  * @alias /api/evenement/supprimer/:id([0-9]*)
- * @param {*} req 
- * @param {*} res 
+ * @param {Object} req 
+ * @param {Object} res 
  */
 export const supprimerEvenement = (req, res) => {
 
@@ -214,6 +222,14 @@ export const supprimerEvenement = (req, res) => {
 };
 
 
+/**
+ * @VERB GET
+ * @description recover an event by a place
+ * @access public
+ * @alias api/evenement/recuperer/:lieu[a-z]*
+ * @param {Object} req 
+ * @param {Object} res 
+ */
 
 export const recupererEvenementParLieu = (req, res) => {
     let erreurs = {}

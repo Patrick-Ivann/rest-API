@@ -14,12 +14,14 @@ import {
 
 
 /**
- * @access without token
- * @alias /api/achete/recuperer
- * @param {*} req 
- * @param {*} res 
+ * @VERB GET
+ * @description recover all purchases
+ * @access public
+ * @alias /api/achete/recuperer/
+ * @param {Object} req 
+ * @param {Object} res 
  */
-export const recupererAchats = (req, res) => {
+export const recupererAchats = (req, res) => { 
 
     connexion.query(RECUPERER_TOUS_LES_ACHATS, (err, rows, fields) => {
 
@@ -38,10 +40,12 @@ export const recupererAchats = (req, res) => {
 
 
 /**
- * @access
- * @alias /api/achete/recuperer
- * @param {*} req 
- * @param {*} res 
+ * @VERB GET
+ * @description retrieves the id of the customer who buys
+ * @access public
+ * @alias /api/achete/recuperer/:id([0-9]*)
+ * @param {Object} req 
+ * @param {Object} res 
  */
 export const recupererAcheteur = (req, res) => {
 
@@ -61,10 +65,12 @@ export const recupererAcheteur = (req, res) => {
 
 
 /**
- * @access without token
+ * @VERB GET
+ * @description recover an id product
+ * @access public
  * @alias /api/achete/recuperer/:id([0-9])
- * @param {*} req request
- * @param {*} res response
+ * @param {Object} req request
+ * @param {Object} res response
  */
 export const recupererProduit = (req, res) => {
 
@@ -84,10 +90,12 @@ export const recupererProduit = (req, res) => {
 
 
 /**
- * @access via token
- * @alias /api/achete/rajouter
- * @param {*} req 
- * @param {*} res 
+ * @VERB POST
+ * @description 
+ * @access protected
+ * @alias /api/achete/ajouter/
+ * @param {Object} req resquest
+ * @param {Object} res response
  *
  */
 export const publierUnAchat = (req, res) => {
@@ -110,6 +118,7 @@ export const publierUnAchat = (req, res) => {
         }
 
     }
+    
 
     connexion.query(PUBLIER_UN_ACHAT, [achat.id_user, achat.id_produit], (err, rows, fields) => {
 
